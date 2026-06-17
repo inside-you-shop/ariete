@@ -25,7 +25,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-ariete-black.png"],
+    images: ["./cap-ariete-black.png"],
   },
   {
     id: "cap-ariete-black",
@@ -36,7 +36,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-non-sono-difficile.png"],
+    images: ["./cap-non-sono-difficile.png"],
   },
   {
     id: "cap-spostati",
@@ -47,7 +47,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-spostati.png"],
+    images: ["./cap-spostati.png"],
   },
   {
     id: "cap-non-sono-difficile",
@@ -58,7 +58,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-ariete-white.png"],
+    images: ["./cap-ariete-white.png"],
   },
   {
     id: "tee-solo-fronte",
@@ -69,7 +69,7 @@ const products = [
     listPrice: 24.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./assets/products/lifestyle-tee-front-studio.png"],
+    images: ["./lifestyle-tee-front-studio.png"],
   },
   {
     id: "tee-solo-retro",
@@ -80,7 +80,7 @@ const products = [
     listPrice: 24.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./assets/products/lifestyle-tee-back-studio.png"],
+    images: ["./lifestyle-tee-back-studio.png"],
   },
   {
     id: "tee-fronte-retro",
@@ -91,7 +91,7 @@ const products = [
     listPrice: 29.9,
     price: 17.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./assets/products/lifestyle-tee-front-studio.png", "./assets/products/lifestyle-tee-back-studio.png"],
+    images: ["./lifestyle-tee-front-studio.png", "./lifestyle-tee-back-studio.png"],
   },
   {
     id: "body-mini-ariete",
@@ -102,7 +102,7 @@ const products = [
     listPrice: 22.5,
     price: 16,
     sizes: ["3-6M", "6-12M", "12-18M", "18-24M"],
-    images: ["./assets/products/body-mini-ariete.png"],
+    images: ["./body-mini-ariete.png"],
   },
 ];
 
