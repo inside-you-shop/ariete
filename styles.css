@@ -84,6 +84,15 @@ textarea {
   text-transform: uppercase;
 }
 
+.hero-claim {
+  margin: -8px 0 18px;
+  color: var(--red);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(27px, 3.2vw, 48px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
 .social-copy p:not(.collection-label),
 .lookbook-copy p:not(.collection-label) {
   max-width: 640px;
