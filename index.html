@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ariete Inside Collection</title>
+    <meta
+      name="description"
+      content="Ariete Inside Collection: cappellini e t-shirt print on demand. Minimal, diretti, senza filtri."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=10" />
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav" aria-label="Navigazione">
+        <a href="#cappellini">Cappellini</a>
+        <a href="#tshirt">T-shirt</a>
+        <a href="#mini-ariete">Mini Ariete</a>
+        <a href="#checkout">Checkout</a>
+      </nav>
+      <button class="cart-pill" type="button" data-open-cart>
+        Carrello <strong data-cart-count>0</strong>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="social-hero">
+        <div class="social-copy">
+          <img class="hero-logo" src="./assets/products/inside-logo-original.png" alt="Inside" />
+          <p class="collection-label">Ariete Inside Collection</p>
+          <h1>Per chi non deve spiegarsi troppo.</h1>
+          <p>
+            Cappellini, t-shirt e body Mini Ariete prodotti su ordinazione.
+            Scegli, aggiungi al carrello e completa l'ordine in pochi passaggi.
+          </p>
+          <div class="hero-actions">
+            <a class="cta" href="#cappellini">Compra ora</a>
+            <a class="cta cta-light" href="#checkout">Vai al checkout</a>
+          </div>
+        </div>
+        <div class="hero-stack" aria-label="Foto prodotti Ariete Inside">
+          <img src="./assets/products/lifestyle-cap-warning.png" alt="Cappellino nero Non sono difficile sono Ariete" />
+          <img src="./assets/products/lifestyle-tee-front-warm.png" alt="T-shirt nera Inside frontale" />
+          <img class="hero-baby" src="./assets/products/body-mini-ariete.png" alt="Body bianco Mini Ariete" />
+        </div>
+      </section>
+
+      <section class="collection" id="cappellini">
+        <div class="section-title">
+          <p>Cappellini. <span>Taglia unica.</span></p>
+        </div>
+        <div class="product-grid" data-product-grid="caps" aria-live="polite"></div>
+      </section>
+
+      <section class="collection" id="tshirt">
+        <div class="section-title">
+          <p>T-shirt nera. <span>Fronte, retro o entrambi.</span></p>
+        </div>
+        <div class="product-grid tee-grid" data-product-grid="tees" aria-live="polite"></div>
+      </section>
+
+      <section class="collection baby-collection" id="mini-ariete">
+        <div class="section-title">
+          <p>Mini Ariete. <span>Solo bianco.</span></p>
+        </div>
+        <div class="product-grid baby-grid" data-product-grid="baby" aria-live="polite"></div>
+      </section>
+
+      <section class="lookbook lookbook-dark" aria-label="Prodotti indossati">
+        <div class="lookbook-copy">
+          <p class="collection-label">Visti addosso</p>
+          <h2>Lo vedi. Lo scegli. Lo indossi.</h2>
+          <p>
+            Una selezione rapida dei capi indossati: nero deciso, bianco essenziale
+            e messaggi che arrivano subito.
+          </p>
+        </div>
+        <div class="lookbook-grid">
+          <img src="./assets/products/lifestyle-cap-spostati.png" alt="Cappellino nero Spostati indossato" />
+          <img src="./assets/products/lifestyle-cap-white.png" alt="Cappellino bianco Inside indossato" />
+          <img src="./assets/products/lifestyle-tee-back-studio.png" alt="T-shirt nera retro Sono Ariete" />
+        </div>
+      </section>
+
+      <section class="essentials" aria-label="Dettagli essenziali prodotti">
+        <div class="section-title">
+          <p>Dettagli essenziali. <span>Niente complicazioni.</span></p>
+        </div>
+        <div class="essentials-grid">
+          <article>
+            <h3>Cappellini</h3>
+            <p>100% cotone, regolabili con velcro. Ogni modello ha il suo colore: bianco o nero.</p>
+            <strong>Taglia unica</strong>
+          </article>
+          <article>
+            <h3>T-shirt donna</h3>
+            <p>100% cotone, taglio femminile sfiancato. Disponibile solo in nero.</p>
+            <strong>XS - S - M - L - XL - XXL</strong>
+          </article>
+          <article>
+            <h3>Body Mini Ariete</h3>
+            <p>Body bianco morbido e pratico, pensato per i primi mesi.</p>
+            <strong>3-6M - 6-12M - 12-18M - 18-24M</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="info-band" aria-label="Informazioni spedizione">
+        <article>
+          <span class="info-icon" aria-hidden="true">&#9633;</span>
+          <div>
+            <h3>Spedizione Italia</h3>
+            <p>La spedizione costa <strong>4,95 EUR</strong> per il primo prodotto.</p>
+            <p>Per ogni prodotto aggiuntivo nello stesso ordine:</p>
+            <ul>
+              <li><strong>+1,95 EUR</strong> se aggiungi un cappellino</li>
+              <li><strong>+1,45 EUR</strong> se aggiungi una t-shirt o un body</li>
+            </ul>
+          </div>
+        </article>
+        <article>
+          <span class="info-icon" aria-hidden="true">&#9638;</span>
+          <div>
+            <h3>Produzione e spedizione</h3>
+            <p>Ogni prodotto viene realizzato su ordinazione.</p>
+            <p>La consegna &egrave; prevista indicativamente in <strong>5-7 giorni lavorativi</strong>.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="checkout-panel" id="checkout">
+        <div class="checkout-heading">
+          <p class="collection-label">Checkout diretto</p>
+          <h2>Completa ordine e pagamento</h2>
+          <p>
+            Inserisci i dati di spedizione, controlla il totale e procedi al pagamento.
+            I dati dell'ordine vengono preparati per l'invio al venditore.
+          </p>
+        </div>
+
+        <div class="checkout-layout">
+          <form class="checkout-form" data-checkout-form>
+            <label>
+              Nome e cognome
+              <input required name="name" autocomplete="name" placeholder="Nome Cognome" />
+            </label>
+            <label>
+              Email
+              <input required type="email" name="email" autocomplete="email" placeholder="nome@email.com" />
+            </label>
+            <label>
+              Telefono
+              <input required type="tel" name="phone" autocomplete="tel" placeholder="+39 ..." />
+            </label>
+            <label>
+              Indirizzo di spedizione
+              <input required name="address" autocomplete="street-address" placeholder="Via, numero civico" />
+            </label>
+            <div class="form-row">
+              <label>
+                Citt&agrave;
+                <input required name="city" autocomplete="address-level2" />
+              </label>
+              <label>
+                CAP
+                <input required name="zip" autocomplete="postal-code" inputmode="numeric" />
+              </label>
+            </div>
+            <label>
+              Note ordine
+              <textarea name="notes" rows="4" placeholder="Taglia, dettagli citofono, preferenze..."></textarea>
+            </label>
+          </form>
+
+          <aside class="order-summary" aria-label="Riepilogo ordine">
+            <h3>Riepilogo ordine</h3>
+            <div class="cart-lines" data-cart-lines>
+              <p class="empty-cart">Il carrello &egrave; vuoto.</p>
+            </div>
+            <div class="summary-row">
+              <span>Prodotti</span>
+              <strong data-subtotal>0,00 EUR</strong>
+            </div>
+            <div class="summary-row">
+              <span>Spedizione</span>
+              <strong data-shipping>0,00 EUR</strong>
+            </div>
+            <div class="summary-total">
+              <span>Totale</span>
+              <strong data-total>0,00 EUR</strong>
+            </div>
+            <div class="payment-actions">
+              <button class="pay-button paypal" type="button" data-paypal>Pagamento PayPal</button>
+              <button class="pay-button satispay" type="button" data-satispay>Pagamento Satispay</button>
+            </div>
+            <p class="microcopy">
+              Dopo il pagamento, riceverai conferma e aggiornamenti sulla spedizione.
+            </p>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>Inside</strong>
+      <span>Ariete Inside Collection - print on demand - spedizione Italia</span>
+    </footer>
+
+    <div class="toast" data-toast role="status" aria-live="polite"></div>
+    <script src="./app.js?v=12"></script>
+  </body>
+</html>
