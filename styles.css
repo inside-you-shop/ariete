@@ -925,6 +925,11 @@ textarea:focus {
   border-bottom: 1px solid var(--line);
 }
 
+.paypal-fee-row {
+  color: var(--red);
+  font-weight: 900;
+}
+
 .summary-total {
   align-items: center;
   border-bottom: 0;
@@ -949,6 +954,18 @@ textarea:focus {
 
 .pay-button.satispay {
   background: var(--red);
+}
+
+.payment-note {
+  margin: -3px 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.payment-note strong {
+  color: var(--red);
 }
 
 .pay-button.order-email {

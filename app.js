@@ -14,6 +14,8 @@ const ADDITIONAL_SHIPPING = {
   tee: 1.45,
   baby: 1.45,
 };
+const PAYPAL_FEE_RATE = 0.034;
+const PAYPAL_FIXED_FEE = 0.35;
 
 const products = [
   {
@@ -122,6 +124,8 @@ const cartLines = document.querySelector("[data-cart-lines]");
 const subtotalNode = document.querySelector("[data-subtotal]");
 const shippingNode = document.querySelector("[data-shipping]");
 const totalNode = document.querySelector("[data-total]");
+const paypalFeeNode = document.querySelector("[data-paypal-fee]");
+const paypalTotalNode = document.querySelector("[data-paypal-total]");
 const toast = document.querySelector("[data-toast]");
 
 function money(value) {
@@ -139,10 +143,14 @@ function shippingTotal(items) {
 function cartTotals() {
   const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
   const shipping = shippingTotal(cart);
+  const baseTotal = subtotal + shipping;
+  const paypalTotal = baseTotal > 0 ? (baseTotal + PAYPAL_FIXED_FEE) / (1 - PAYPAL_FEE_RATE) : 0;
   return {
     subtotal,
     shipping,
-    total: subtotal + shipping,
+    total: baseTotal,
+    paypalFee: paypalTotal - baseTotal,
+    paypalTotal,
   };
 }
 
@@ -212,7 +220,7 @@ function selectedSize(productId) {
 
 function renderCart() {
   cartCount.textContent = cart.length;
-  const { subtotal, shipping, total } = cartTotals();
+  const { subtotal, shipping, total, paypalFee, paypalTotal } = cartTotals();
 
   if (cart.length === 0) {
     cartLines.innerHTML = '<p class="empty-cart">Il carrello &egrave; vuoto.</p>';
@@ -235,14 +243,16 @@ function renderCart() {
   subtotalNode.textContent = money(subtotal);
   shippingNode.textContent = money(shipping);
   totalNode.textContent = money(total);
+  paypalFeeNode.textContent = money(paypalFee);
+  paypalTotalNode.textContent = money(paypalTotal);
 }
 
 function paymentLink(type) {
-  const { total } = cartTotals();
+  const { total, paypalTotal } = cartTotals();
   const baseLink = PAYMENT_LINKS[type]?.replace(/\/$/, "");
 
   if (type === "paypal") {
-    return `${baseLink}/${total.toFixed(2)}`;
+    return `${baseLink}/${paypalTotal.toFixed(2)}`;
   }
 
   return baseLink;
@@ -258,9 +268,11 @@ function checkoutPayload(paymentType = "") {
   const form = document.querySelector("[data-checkout-form]");
   const formData = new FormData(form);
   const order = cart.map((item) => `${item.name} (${item.size}) - ${money(item.price)}`).join(" | ");
+  const { total, paypalFee, paypalTotal } = cartTotals();
   const customerName = formData.get("name") || "";
   const customerEmail = formData.get("email") || "";
   const paymentLabel = paymentType ? (paymentType === "paypal" ? "PayPal" : "Satispay") : "-";
+  const orderTotal = paymentType === "paypal" ? paypalTotal : total;
   const payloadData = {
     _subject: `Nuovo ordine Ariete Inside - ${customerName || "cliente"}`,
     _template: "table",
@@ -272,7 +284,8 @@ function checkoutPayload(paymentType = "") {
     CAP: formData.get("zip") || "",
     Citta: formData.get("city") || "",
     Prodotti: order,
-    Totale: totalNode.textContent,
+    CommissionePayPal: paymentType === "paypal" ? money(paypalFee) : "-",
+    Totale: money(orderTotal),
     Pagamento: paymentLabel,
     Note: formData.get("notes") || "-",
   };
@@ -288,6 +301,7 @@ function checkoutPayload(paymentType = "") {
       `Telefono: ${payloadData.Telefono}`,
       `Spedizione: ${payloadData.Indirizzo}, ${payloadData.CAP} ${payloadData.Citta}`,
       `Prodotti: ${order}`,
+      `Commissione PayPal: ${payloadData.CommissionePayPal}`,
       `Totale: ${payloadData.Totale}`,
       `Pagamento: ${payloadData.Pagamento}`,
       `Note: ${payloadData.Note}`,
