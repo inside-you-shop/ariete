@@ -126,6 +126,7 @@ const shippingNode = document.querySelector("[data-shipping]");
 const totalNode = document.querySelector("[data-total]");
 const paypalFeeNode = document.querySelector("[data-paypal-fee]");
 const paypalTotalNode = document.querySelector("[data-paypal-total]");
+const satispayTotalNode = document.querySelector("[data-satispay-total]");
 const toast = document.querySelector("[data-toast]");
 
 function money(value) {
@@ -245,6 +246,7 @@ function renderCart() {
   totalNode.textContent = money(total);
   paypalFeeNode.textContent = money(paypalFee);
   paypalTotalNode.textContent = money(paypalTotal);
+  satispayTotalNode.textContent = money(total);
 }
 
 function paymentLink(type) {
@@ -366,7 +368,7 @@ async function openPayment(type) {
   }
 
   if (type === "satispay") {
-    showToast(`Ordine inviato. Su Satispay fai pagare ${totalNode.textContent}.`);
+    showToast(`Ordine inviato. Procedi su Satispay con il totale del carrello: ${totalNode.textContent}.`);
   }
 
   window.open(link, "_blank", "noopener,noreferrer");
