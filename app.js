@@ -124,8 +124,6 @@ const cartLines = document.querySelector("[data-cart-lines]");
 const subtotalNode = document.querySelector("[data-subtotal]");
 const shippingNode = document.querySelector("[data-shipping]");
 const totalNode = document.querySelector("[data-total]");
-const paypalFeeNode = document.querySelector("[data-paypal-fee]");
-const paypalTotalNode = document.querySelector("[data-paypal-total]");
 const satispayTotalNode = document.querySelector("[data-satispay-total]");
 const toast = document.querySelector("[data-toast]");
 
@@ -244,8 +242,6 @@ function renderCart() {
   subtotalNode.textContent = money(subtotal);
   shippingNode.textContent = money(shipping);
   totalNode.textContent = money(total);
-  paypalFeeNode.textContent = money(paypalFee);
-  paypalTotalNode.textContent = money(paypalTotal);
   satispayTotalNode.textContent = money(total);
 }
 

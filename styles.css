@@ -932,42 +932,6 @@ textarea:focus {
   font-weight: 900;
 }
 
-.paypal-total-box {
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
-  padding: 12px;
-  border: 2px solid var(--red);
-  background: var(--white);
-}
-
-.paypal-total-box > span {
-  color: var(--red);
-  font-family: "Bebas Neue", Impact, sans-serif;
-  font-size: 24px;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.paypal-total-box div {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  align-items: center;
-}
-
-.paypal-total-box small {
-  color: var(--black);
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1.25;
-}
-
-.paypal-total-box strong {
-  color: var(--red);
-  white-space: nowrap;
-}
-
 .payment-actions,
 .order-actions {
   display: grid;
