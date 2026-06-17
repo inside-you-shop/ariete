@@ -134,10 +134,10 @@ function money(value) {
 
 function shippingTotal(items) {
   if (items.length === 0) return 0;
-  return items.reduce((sum, item, index) => {
-    if (index === 0) return FIRST_ITEM_SHIPPING;
-    return sum + ADDITIONAL_SHIPPING[item.type];
-  }, 0);
+  const additionalRates = items.map((item) => ADDITIONAL_SHIPPING[item.type]);
+  const highestAdditionalRate = Math.max(...additionalRates);
+  const additionalTotal = additionalRates.reduce((sum, rate) => sum + rate, 0);
+  return FIRST_ITEM_SHIPPING + additionalTotal - highestAdditionalRate;
 }
 
 function cartTotals() {
