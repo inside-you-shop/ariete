@@ -167,14 +167,45 @@ function renderProduct(product) {
   const selectedSize = product.sizes[0];
   const mediaClass = product.images.length > 1 ? "duo" : "single";
   const discount = product.listPrice ? Math.round(((product.listPrice - product.price) / product.listPrice) * 100) : 0;
+  const galleryDots =
+    product.images.length > 1
+      ? `
+        <div class="gallery-dots" aria-label="Altre foto del prodotto">
+          ${product.images
+            .map(
+              (_, index) => `
+                <button
+                  class="gallery-dot ${index === 0 ? "active" : ""}"
+                  type="button"
+                  data-slide="${index}"
+                  aria-label="Guarda foto ${index + 1} di ${product.images.length}"
+                ></button>
+              `,
+            )
+            .join("")}
+        </div>
+      `
+      : "";
   return `
     <article class="product-card">
       <div class="launch-badge">Offerta lancio primi 30 ordini</div>
       <div class="product-media ${mediaClass}">
         ${product.images
-          .map((image) => `<img src="${image}" alt="${product.name}" />`)
+          .map(
+            (image, index) => `
+              <button
+                class="gallery-frame"
+                type="button"
+                data-lightbox-src="${image}"
+                data-lightbox-alt="${product.name} - foto ${index + 1}"
+              >
+                <img src="${image}" alt="${product.name} - foto ${index + 1}" />
+              </button>
+            `,
+          )
           .join("")}
       </div>
+      ${galleryDots}
       <div class="product-copy">
         <h3>${product.name}</h3>
         <p>${product.description}</p>
@@ -216,6 +247,53 @@ function renderProducts() {
   Object.entries(grids).forEach(([group, grid]) => {
     grid.innerHTML = products.filter((product) => product.group === group).map(renderProduct).join("");
   });
+  initializeGalleries();
+}
+
+function initializeGalleries() {
+  document.querySelectorAll(".product-card").forEach((card) => {
+    const media = card.querySelector(".product-media");
+    const dots = [...card.querySelectorAll("[data-slide]")];
+    if (!media || dots.length === 0) return;
+
+    let animationFrame = 0;
+    const updateDots = () => {
+      const index = Math.round(media.scrollLeft / Math.max(media.clientWidth, 1));
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === index);
+      });
+    };
+
+    media.addEventListener(
+      "scroll",
+      () => {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = window.requestAnimationFrame(updateDots);
+      },
+      { passive: true },
+    );
+    updateDots();
+  });
+}
+
+function openLightbox(src, alt) {
+  const lightbox = document.querySelector("[data-lightbox]");
+  const image = document.querySelector("[data-lightbox-image]");
+  if (!lightbox || !image) return;
+  image.src = src;
+  image.alt = alt;
+  lightbox.hidden = false;
+  document.body.classList.add("lightbox-open");
+}
+
+function closeLightbox() {
+  const lightbox = document.querySelector("[data-lightbox]");
+  const image = document.querySelector("[data-lightbox-image]");
+  if (!lightbox || !image) return;
+  lightbox.hidden = true;
+  image.removeAttribute("src");
+  image.alt = "";
+  document.body.classList.remove("lightbox-open");
 }
 
 function selectedSize(productId) {
@@ -378,6 +456,30 @@ async function openPayment(type) {
 }
 
 document.addEventListener("click", (event) => {
+  const slideButton = event.target.closest("[data-slide]");
+  if (slideButton) {
+    const card = slideButton.closest(".product-card");
+    const media = card?.querySelector(".product-media");
+    if (media) {
+      media.scrollTo({
+        left: media.clientWidth * Number(slideButton.dataset.slide),
+        behavior: "smooth",
+      });
+    }
+    return;
+  }
+
+  const imageButton = event.target.closest("[data-lightbox-src]");
+  if (imageButton) {
+    openLightbox(imageButton.dataset.lightboxSrc, imageButton.dataset.lightboxAlt || "Foto prodotto");
+    return;
+  }
+
+  if (event.target.closest("[data-close-lightbox]") || event.target.matches("[data-lightbox]")) {
+    closeLightbox();
+    return;
+  }
+
   const sizeButton = event.target.closest("[data-size]");
   if (sizeButton) {
     const group = sizeButton.closest(".options");
@@ -413,6 +515,10 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-paypal]")) openPayment("paypal");
   if (event.target.closest("[data-satispay]")) openPayment("satispay");
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeLightbox();
 });
 
 renderProducts();
