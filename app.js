@@ -28,10 +28,10 @@ const products = [
     price: 17.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: [
-      "./assets/products/tee-fronte-retro-model.png",
-      "./assets/products/tee-fronte-retro-product.png",
-      "./assets/products/tee-fronte-logo-lifestyle.png",
-      "./assets/products/tee-retro-lifestyle.png",
+      "./tee-fronte-retro-model.png",
+      "./tee-fronte-retro-product.png",
+      "./tee-fronte-logo-lifestyle.png",
+      "./tee-retro-lifestyle.png",
     ],
   },
   {
@@ -43,7 +43,7 @@ const products = [
     listPrice: 24.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./assets/products/tee-fronte-logo-lifestyle.png", "./assets/products/tee-fronte-logo-product.png"],
+    images: ["./tee-fronte-logo-lifestyle.png", "./tee-fronte-logo-product.png"],
   },
   {
     id: "tee-solo-retro",
@@ -54,7 +54,7 @@ const products = [
     listPrice: 24.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./assets/products/tee-retro-lifestyle.png", "./assets/products/tee-retro-product.png"],
+    images: ["./tee-retro-lifestyle.png", "./tee-retro-product.png"],
   },
   {
     id: "tee-solo-fronte-scritta",
@@ -65,7 +65,7 @@ const products = [
     listPrice: 24.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./assets/products/tee-fronte-scritta-lifestyle.png", "./assets/products/tee-fronte-scritta-product.png"],
+    images: ["./tee-fronte-scritta-lifestyle.png", "./tee-fronte-scritta-product.png"],
   },
   {
     id: "body-mini-ariete",
@@ -76,7 +76,7 @@ const products = [
     listPrice: 22.5,
     price: 16,
     sizes: ["3-6M", "6-12M", "12-18M", "18-24M"],
-    images: ["./assets/products/body-fronte-retro-product.png"],
+    images: ["./body-fronte-retro-product.png"],
   },
   {
     id: "cap-ariete-black",
@@ -87,7 +87,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-nero-logo-front.png", "./assets/products/cap-nero-logo-lifestyle.png"],
+    images: ["./cap-nero-logo-front.png", "./cap-nero-logo-lifestyle.png"],
   },
   {
     id: "cap-ariete-white",
@@ -98,7 +98,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-bianco-front.png", "./assets/products/cap-bianco-lifestyle.png"],
+    images: ["./cap-bianco-front.png", "./cap-bianco-lifestyle.png"],
   },
   {
     id: "cap-non-sono-difficile",
@@ -109,7 +109,7 @@ const products = [
     listPrice: 19.9,
     price: 11,
     sizes: ["Taglia unica"],
-    images: ["./assets/products/cap-nero-scritta-front.png", "./assets/products/cap-nero-scritta-lifestyle.png"],
+    images: ["./cap-nero-scritta-front.png", "./cap-nero-scritta-lifestyle.png"],
   },
 ];
 
