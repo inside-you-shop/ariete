@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=12" />
+    <link rel="stylesheet" href="./styles.css?v=14" />
   </head>
   <body>
     <header class="topbar">
@@ -40,15 +40,18 @@
             Cappellini, t-shirt e body Arietiny prodotti su ordinazione.
             Scegli, aggiungi al carrello e completa l'ordine in pochi passaggi.
           </p>
+          <div class="countdown-card" data-countdown-card>
+            <span>Offerta lancio fino al 19 giugno 2026 alle 23:59</span>
+            <strong data-countdown>--:--:--</strong>
+            <small data-countdown-label>Alla scadenza tornano i prezzi pieni.</small>
+          </div>
           <div class="hero-actions">
             <a class="cta" href="#tshirt">Compra ora</a>
             <a class="cta cta-light" href="#checkout">Vai al checkout</a>
           </div>
         </div>
-        <div class="hero-stack" aria-label="Foto prodotti Ariete Inside">
-          <img src="./tee-fronte-retro-model.png" alt="T-shirt nera fronte e retro indossata" />
-          <img src="./tee-fronte-scritta-lifestyle.png" alt="T-shirt nera Non sono difficile sono Ariete frontale" />
-          <img class="hero-baby" src="./body-fronte-retro-product.png" alt="Body bianco Arietiny" />
+        <div class="hero-stack hero-feature" aria-label="Foto prodotti Ariete Inside">
+          <img src="./hero-ariete-collection.png" alt="Collezione Ariete Inside indossata" />
         </div>
       </section>
 
@@ -128,6 +131,7 @@
               <li><strong>+1,95 EUR</strong> se aggiungi un cappellino</li>
               <li><strong>+1,45 EUR</strong> se aggiungi una t-shirt o un body</li>
             </ul>
+            <p>Spedizione tracciata con numero d'ordine.</p>
           </div>
         </article>
         <article>
@@ -235,6 +239,6 @@
       <button class="lightbox-close" type="button" data-close-lightbox aria-label="Chiudi immagine">Chiudi</button>
       <img data-lightbox-image alt="" />
     </div>
-    <script src="./app.js?v=26"></script>
+    <script src="./app.js?v=28"></script>
   </body>
 </html>

@@ -109,6 +109,38 @@ textarea {
   margin-top: 30px;
 }
 
+.countdown-card {
+  display: grid;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 14px 16px 13px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--white);
+}
+
+.countdown-card span,
+.countdown-card small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.countdown-card strong {
+  color: var(--red);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+}
+
+.countdown-card.expired strong {
+  color: var(--white);
+}
+
 .cta-light {
   background: var(--white);
   color: var(--black);
@@ -122,6 +154,19 @@ textarea {
   align-items: stretch;
   padding: clamp(18px, 3vw, 42px);
   max-height: min(760px, calc(100vh - 110px));
+}
+
+.hero-feature {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  padding: clamp(14px, 2.6vw, 36px);
+}
+
+.hero-feature img,
+.hero-feature img:first-child {
+  grid-row: auto;
+  aspect-ratio: 16 / 9;
+  object-position: center;
 }
 
 .hero-stack img,
@@ -423,6 +468,10 @@ p {
   font-size: 18px;
   line-height: 1;
   text-transform: uppercase;
+}
+
+.launch-badge.expired {
+  background: var(--black);
 }
 
 .product-media {
@@ -1145,6 +1194,10 @@ textarea:focus {
     padding-top: 0;
   }
 
+  .hero-feature {
+    grid-template-columns: 1fr;
+  }
+
   .info-band article {
     padding: 22px 0;
   }
@@ -1236,6 +1289,21 @@ textarea:focus {
     aspect-ratio: 4 / 5;
     max-height: 520px;
     scroll-snap-align: center;
+  }
+
+  .hero-feature {
+    display: block;
+    margin-inline: 0;
+    padding: 0 18px 22px;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .hero-feature img,
+  .hero-feature img:first-child {
+    width: 100%;
+    max-height: none;
+    aspect-ratio: 16 / 10;
   }
 
   .product-media {
