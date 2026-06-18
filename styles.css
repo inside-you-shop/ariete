@@ -601,9 +601,9 @@ p {
 }
 
 .product-price .was-price {
-  color: rgba(14, 14, 14, 0.55);
+  color: rgba(14, 14, 14, 0.78);
   font-family: Arial, sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -611,7 +611,8 @@ p {
 .product-price .was-price s {
   color: var(--black);
   text-decoration-color: var(--red);
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 2px;
 }
 
 .product-price b {
@@ -1119,6 +1120,31 @@ textarea:focus {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.5;
+}
+
+.confirmation-note {
+  margin-top: 18px;
+  border: 2px solid var(--black);
+  padding: 14px;
+  background: var(--white);
+  color: var(--black);
+}
+
+.confirmation-note strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--red);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 26px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.confirmation-note p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
 }
 
 .footer {
