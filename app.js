@@ -410,10 +410,32 @@ function checkoutPayload(paymentType = "") {
   const customerEmail = formData.get("email") || "";
   const paymentLabel = paymentType ? (paymentType === "paypal" ? "PayPal" : "Satispay") : "-";
   const orderTotal = paymentType === "paypal" ? paypalTotal : total;
+  const autoResponse = [
+    `Ciao ${customerName || ""},`,
+    "",
+    "abbiamo ricevuto la tua richiesta d'ordine Ariete Inside.",
+    "",
+    "Riepilogo richiesta:",
+    `Prodotti: ${order || "-"}`,
+    `Totale: ${money(orderTotal)}`,
+    `Metodo selezionato: ${paymentLabel}`,
+    `Spedizione: ${formData.get("address") || ""}, ${formData.get("zip") || ""} ${formData.get("city") || ""}`,
+    "Se hai appena completato il pagamento, controlleremo la conferma e riceverai una mail entro 24 ore con lo stato dell'ordine e l'avvio della produzione.",
+    "",
+    "Ogni capo viene realizzato su richiesta. Produzione + spedizione: circa 6-10 giorni lavorativi.",
+    "",
+    "Per supporto o informazioni puoi scrivere a angolodellerisposte@gmail.com.",
+    "",
+    "Grazie,",
+    "Inside You",
+  ].join("\n");
   const payloadData = {
     _subject: `Nuovo ordine Ariete Inside - ${customerName || "cliente"}`,
     _template: "table",
     _captcha: "false",
+    _replyto: customerEmail,
+    _autoresponse: autoResponse,
+    email: customerEmail,
     Nome: customerName,
     Email: customerEmail,
     Telefono: formData.get("phone") || "",
