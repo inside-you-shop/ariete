@@ -434,6 +434,7 @@ function checkoutPayload(paymentType = "") {
     _template: "table",
     _captcha: "false",
     _replyto: customerEmail,
+    _cc: customerEmail,
     _autoresponse: autoResponse,
     email: customerEmail,
     Nome: customerName,
