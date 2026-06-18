@@ -151,14 +151,14 @@ function productPrice(product) {
 
 function shippingTotal(items) {
   if (items.length === 0) return 0;
-  const additionalRates = items.map((item) => ADDITIONAL_SHIPPING[item.type]);
+  const additionalRates = items.flatMap((item) => Array.from({ length: item.quantity || 1 }, () => ADDITIONAL_SHIPPING[item.type]));
   const highestAdditionalRate = Math.max(...additionalRates);
   const additionalTotal = additionalRates.reduce((sum, rate) => sum + rate, 0);
   return FIRST_ITEM_SHIPPING + additionalTotal - highestAdditionalRate;
 }
 
 function cartTotals() {
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
   const shipping = shippingTotal(cart);
   const baseTotal = subtotal + shipping;
   const paypalTotal = baseTotal > 0 ? (baseTotal + PAYPAL_FIXED_FEE) / (1 - PAYPAL_FEE_RATE) : 0;
@@ -249,6 +249,11 @@ function renderProduct(product) {
             `,
           )
           .join("")}
+      </div>
+      <div class="quantity-control" aria-label="Quantita">
+        <button type="button" data-qty-minus="${product.id}" aria-label="Diminuisci quantita">-</button>
+        <input type="number" min="1" max="20" value="1" inputmode="numeric" data-qty="${product.id}" aria-label="Quantita ${product.name}" />
+        <button type="button" data-qty-plus="${product.id}" aria-label="Aumenta quantita">+</button>
       </div>
       <button class="add-button" type="button" data-add="${product.id}">
         Aggiungi
@@ -344,6 +349,12 @@ function selectedSize(productId) {
   return selected?.dataset.size || "Taglia unica";
 }
 
+function selectedQuantity(productId) {
+  const input = document.querySelector(`[data-qty="${productId}"]`);
+  const quantity = Number(input?.value || 1);
+  return Math.max(1, Math.min(20, Number.isFinite(quantity) ? Math.round(quantity) : 1));
+}
+
 function renderCart() {
   cartCount.textContent = cart.length;
   const { subtotal, shipping, total, paypalFee, paypalTotal } = cartTotals();
@@ -357,7 +368,7 @@ function renderCart() {
           <div class="cart-line">
             <div>
               <strong>${item.name}</strong>
-              <span>${item.size} - ${money(item.price)}</span>
+              <span>${item.size} - ${item.quantity || 1} x ${money(item.price)}</span>
             </div>
             <button class="remove-line" type="button" data-remove="${index}">Rimuovi</button>
           </div>
@@ -393,7 +404,7 @@ function showToast(message) {
 function checkoutPayload(paymentType = "") {
   const form = document.querySelector("[data-checkout-form]");
   const formData = new FormData(form);
-  const order = cart.map((item) => `${item.name} (${item.size}) - ${money(item.price)}`).join(" | ");
+  const order = cart.map((item) => `${item.quantity || 1} x ${item.name} (${item.size}) - ${money(item.price)}`).join(" | ");
   const { total, paypalFee, paypalTotal } = cartTotals();
   const customerName = formData.get("name") || "";
   const customerEmail = formData.get("email") || "";
@@ -535,12 +546,40 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const quantityMinus = event.target.closest("[data-qty-minus]");
+  if (quantityMinus) {
+    const input = document.querySelector(`[data-qty="${quantityMinus.dataset.qtyMinus}"]`);
+    if (input) input.value = Math.max(1, selectedQuantity(quantityMinus.dataset.qtyMinus) - 1);
+    return;
+  }
+
+  const quantityPlus = event.target.closest("[data-qty-plus]");
+  if (quantityPlus) {
+    const input = document.querySelector(`[data-qty="${quantityPlus.dataset.qtyPlus}"]`);
+    if (input) input.value = Math.min(20, selectedQuantity(quantityPlus.dataset.qtyPlus) + 1);
+    return;
+  }
+
+  const quantityInput = event.target.closest("[data-qty]");
+  if (quantityInput) {
+    quantityInput.value = selectedQuantity(quantityInput.dataset.qty);
+    return;
+  }
+
   const addButton = event.target.closest("[data-add]");
   if (addButton) {
     const product = products.find((item) => item.id === addButton.dataset.add);
-    cart.push({ ...product, price: productPrice(product), size: selectedSize(product.id) });
+    const size = selectedSize(product.id);
+    const quantity = selectedQuantity(product.id);
+    const existingItem = cart.find((item) => item.id === product.id && item.size === size);
+    if (existingItem) {
+      existingItem.quantity = Math.min(20, (existingItem.quantity || 1) + quantity);
+      existingItem.price = productPrice(product);
+    } else {
+      cart.push({ ...product, price: productPrice(product), size, quantity });
+    }
     renderCart();
-    showToast(`${product.name} aggiunto al carrello.`);
+    showToast(`${quantity} x ${product.name} aggiunto al carrello.`);
     return;
   }
 
