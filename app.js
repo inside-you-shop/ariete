@@ -447,6 +447,8 @@ function checkoutPayload(paymentType = "") {
     CommissionePayPal: paymentType === "paypal" ? money(paypalFee) : "-",
     Totale: money(orderTotal),
     Pagamento: paymentLabel,
+    MessaggioCliente:
+      "Richiesta ordine ricevuta. Dopo la verifica del pagamento, entro 24 ore invieremo conferma definitiva con ordine in produzione e stato del prodotto. Produzione + spedizione: circa 6-10 giorni lavorativi. Supporto: angolodellerisposte@gmail.com.",
     Note: formData.get("notes") || "-",
   };
 
