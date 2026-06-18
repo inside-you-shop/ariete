@@ -16,6 +16,7 @@ const ADDITIONAL_SHIPPING = {
 };
 const PAYPAL_FEE_RATE = 0.034;
 const PAYPAL_FIXED_FEE = 0.35;
+const OFFER_END_AT = new Date("2026-06-19T23:59:00+02:00");
 
 const products = [
   {
@@ -24,7 +25,7 @@ const products = [
     group: "tees",
     name: "Fronte + retro",
     description: "Logo davanti e frase dietro, con stampa su entrambi i lati.",
-    listPrice: 29.9,
+    listPrice: 23.9,
     price: 17.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: [
@@ -40,7 +41,7 @@ const products = [
     group: "tees",
     name: "Solo fronte",
     description: "Logo frontale discreto su cotone morbido e taglio sfiancato.",
-    listPrice: 24.9,
+    listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: ["./tee-fronte-logo-lifestyle.png", "./tee-fronte-logo-product.png"],
@@ -51,7 +52,7 @@ const products = [
     group: "tees",
     name: "Solo retro",
     description: "Maglia nera con messaggio sul retro.",
-    listPrice: 24.9,
+    listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: ["./tee-retro-lifestyle.png", "./tee-retro-product.png"],
@@ -62,7 +63,7 @@ const products = [
     group: "tees",
     name: "Solo fronte con scritta",
     description: "Maglia nera con messaggio Non sono difficile sono Ariete sul fronte.",
-    listPrice: 24.9,
+    listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: ["./tee-fronte-scritta-lifestyle.png", "./tee-fronte-scritta-product.png"],
@@ -73,7 +74,7 @@ const products = [
     group: "baby",
     name: "Body Arietiny",
     description: "Body bianco per piccoli Ariete in crescita.",
-    listPrice: 22.5,
+    listPrice: 18.9,
     price: 16,
     sizes: ["3-6M", "6-12M", "12-18M", "18-24M"],
     images: ["./body-fronte-retro-product.png"],
@@ -84,7 +85,7 @@ const products = [
     group: "caps",
     name: "Ariete Inside nero",
     description: "Cappellino nero con logo Inside, taglia unica regolabile, 100% cotone.",
-    listPrice: 19.9,
+    listPrice: 15.9,
     price: 11,
     sizes: ["Taglia unica"],
     images: ["./cap-nero-logo-front.png", "./cap-nero-logo-lifestyle.png"],
@@ -95,7 +96,7 @@ const products = [
     group: "caps",
     name: "Ariete Inside bianco",
     description: "Cappellino bianco con logo Inside, taglia unica regolabile, 100% cotone.",
-    listPrice: 19.9,
+    listPrice: 15.9,
     price: 11,
     sizes: ["Taglia unica"],
     images: ["./cap-bianco-front.png", "./cap-bianco-lifestyle.png"],
@@ -106,7 +107,7 @@ const products = [
     group: "caps",
     name: "Non sono difficile sono Ariete",
     description: "Cappellino nero con frase frontale Non sono difficile sono Ariete, taglia unica regolabile.",
-    listPrice: 19.9,
+    listPrice: 15.9,
     price: 11,
     sizes: ["Taglia unica"],
     images: ["./cap-nero-scritta-front.png", "./cap-nero-scritta-lifestyle.png"],
@@ -132,9 +133,20 @@ const totalNode = document.querySelector("[data-total]");
 const paypalTotalNode = document.querySelector("[data-paypal-total]");
 const satispayTotalNode = document.querySelector("[data-satispay-total]");
 const toast = document.querySelector("[data-toast]");
+const countdownNode = document.querySelector("[data-countdown]");
+const countdownLabelNode = document.querySelector("[data-countdown-label]");
+const countdownCard = document.querySelector("[data-countdown-card]");
 
 function money(value) {
   return formatter.format(value).replace(/\s/g, " ");
+}
+
+function isLaunchActive() {
+  return Date.now() < OFFER_END_AT.getTime();
+}
+
+function productPrice(product) {
+  return isLaunchActive() ? product.price : product.listPrice;
 }
 
 function shippingTotal(items) {
@@ -160,13 +172,15 @@ function cartTotals() {
 }
 
 function productTotalWithFirstShipping(product) {
-  return product.price + FIRST_ITEM_SHIPPING;
+  return productPrice(product) + FIRST_ITEM_SHIPPING;
 }
 
 function renderProduct(product) {
   const selectedSize = product.sizes[0];
   const mediaClass = product.images.length > 1 ? "duo" : "single";
-  const discount = product.listPrice ? Math.round(((product.listPrice - product.price) / product.listPrice) * 100) : 0;
+  const launchActive = isLaunchActive();
+  const currentPrice = productPrice(product);
+  const discount = launchActive && product.listPrice ? Math.round(((product.listPrice - product.price) / product.listPrice) * 100) : 0;
   const galleryDots =
     product.images.length > 1
       ? `
@@ -188,7 +202,7 @@ function renderProduct(product) {
       : "";
   return `
     <article class="product-card">
-      <div class="launch-badge">Offerta lancio primi 30 ordini</div>
+      ${launchActive ? '<div class="launch-badge">Offerta lancio primi 30 ordini</div>' : '<div class="launch-badge expired">Prezzo pieno attivo</div>'}
       <div class="product-media ${mediaClass}">
         ${product.images
           .map(
@@ -211,12 +225,12 @@ function renderProduct(product) {
         <p>${product.description}</p>
         <div class="product-price">
           ${
-            product.listPrice
+            launchActive && product.listPrice
               ? `<span class="was-price">Prezzo pieno <s>${money(product.listPrice)}</s></span>`
               : ""
           }
-          <strong>${money(product.price)}</strong>
-          <span>Prezzo lancio senza spedizione</span>
+          <strong>${money(currentPrice)}</strong>
+          <span>${launchActive ? "Prezzo lancio senza spedizione" : "Prezzo pieno senza spedizione"}</span>
           ${discount ? `<b>Risparmi ${discount}% ora</b>` : ""}
           <span>+ ${money(FIRST_ITEM_SHIPPING)} spedizione</span>
           <em>${money(productTotalWithFirstShipping(product))} totale</em>
@@ -294,6 +308,35 @@ function closeLightbox() {
   image.removeAttribute("src");
   image.alt = "";
   document.body.classList.remove("lightbox-open");
+}
+
+function renderCountdown() {
+  if (!countdownNode || !countdownLabelNode || !countdownCard) return;
+  const remaining = OFFER_END_AT.getTime() - Date.now();
+
+  if (remaining <= 0) {
+    countdownCard.classList.add("expired");
+    countdownNode.textContent = "00:00:00";
+    countdownLabelNode.textContent = "Offerta terminata: sono attivi i prezzi pieni.";
+    return;
+  }
+
+  countdownCard.classList.remove("expired");
+  const totalSeconds = Math.floor(remaining / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const timeParts = [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
+  countdownNode.textContent = days > 0 ? `${days}g ${timeParts}` : timeParts;
+  countdownLabelNode.textContent = "Alla scadenza tornano i prezzi pieni.";
+}
+
+function syncCartPrices() {
+  cart.forEach((item) => {
+    const product = products.find((candidate) => candidate.id === item.id);
+    if (product) item.price = productPrice(product);
+  });
 }
 
 function selectedSize(productId) {
@@ -495,7 +538,7 @@ document.addEventListener("click", (event) => {
   const addButton = event.target.closest("[data-add]");
   if (addButton) {
     const product = products.find((item) => item.id === addButton.dataset.add);
-    cart.push({ ...product, size: selectedSize(product.id) });
+    cart.push({ ...product, price: productPrice(product), size: selectedSize(product.id) });
     renderCart();
     showToast(`${product.name} aggiunto al carrello.`);
     return;
@@ -521,5 +564,20 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeLightbox();
 });
 
+document.body.dataset.launchActive = String(isLaunchActive());
+syncCartPrices();
 renderProducts();
 renderCart();
+renderCountdown();
+
+window.setInterval(() => {
+  const wasActive = document.body.dataset.launchActive === "true";
+  const active = isLaunchActive();
+  document.body.dataset.launchActive = String(active);
+  renderCountdown();
+  if (wasActive && !active) {
+    syncCartPrices();
+    renderProducts();
+    renderCart();
+  }
+}, 1000);
