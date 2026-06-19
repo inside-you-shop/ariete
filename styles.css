@@ -855,140 +855,66 @@ p {
   line-height: 1.45;
 }
 
-.measure-shirt {
-  position: relative;
-  width: min(240px, 100%);
-  aspect-ratio: 1.25 / 1;
-  margin: 0 auto;
-}
-
-.measure-shirt::before,
-.measure-shirt::after {
-  content: "";
-  position: absolute;
-}
-
-.measure-shirt::before {
-  top: 18%;
-  right: 22%;
-  bottom: 8%;
-  left: 22%;
-  border: 2px solid var(--black);
-  border-radius: 18px 18px 8px 8px;
-  background: #f7f7f7;
-}
-
-.measure-shirt::after {
-  top: 16%;
-  left: 50%;
-  width: 50px;
-  height: 30px;
-  border: 2px solid var(--black);
-  border-top: 0;
-  border-radius: 0 0 999px 999px;
-  background: #f7f7f7;
-  transform: translateX(-50%);
-}
-
-.shirt-sleeve {
-  position: absolute;
-  top: 23%;
-  width: 31%;
-  height: 31%;
-  border: 2px solid var(--black);
-  background: #f7f7f7;
-}
-
-.shirt-sleeve-left {
-  left: 0;
-  transform: skewY(-18deg);
-  border-right: 0;
-  border-radius: 12px 0 0 18px;
-}
-
-.shirt-sleeve-right {
-  right: 0;
-  transform: skewY(18deg);
-  border-left: 0;
-  border-radius: 0 12px 18px 0;
-}
-
-.shirt-neck {
-  position: absolute;
-  top: 12%;
-  left: 50%;
-  z-index: 2;
-  width: 46px;
-  height: 25px;
-  border: 2px solid var(--black);
-  border-top: 0;
-  border-radius: 0 0 999px 999px;
-  background: #f7f7f7;
-  transform: translateX(-50%);
-}
-
-.measure-line {
-  position: absolute;
+.measure-figure {
   display: grid;
   place-items: center;
-  z-index: 3;
-  color: var(--red);
-  font-weight: 900;
+  margin: 0;
+}
+
+.measure-svg {
+  display: block;
+  width: min(260px, 100%);
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.08));
+}
+
+.measure-garment {
+  fill: var(--white);
+  stroke: var(--black);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.measure-neck,
+.measure-seam {
+  fill: none;
+  stroke: var(--black);
+  stroke-width: 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.measure-seam {
+  stroke-width: 3;
+  stroke-dasharray: 5 5;
+}
+
+.measure-rule,
+.measure-tick {
+  stroke: var(--red);
+  stroke-width: 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.measure-tick {
+  stroke-width: 3;
+}
+
+.measure-label-bg {
+  fill: var(--white);
+  stroke: var(--red);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.measure-label {
+  fill: var(--red);
+  font-family: Inter, system-ui, sans-serif;
   font-size: 18px;
-  line-height: 1;
-}
-
-.measure-line::before,
-.measure-line::after {
-  content: "";
-  position: absolute;
-  background: var(--red);
-}
-
-.measure-line-width {
-  top: 45%;
-  right: 20%;
-  left: 20%;
-  height: 24px;
-  border-top: 3px solid var(--red);
-}
-
-.measure-line-width::before,
-.measure-line-width::after {
-  top: -7px;
-  width: 3px;
-  height: 14px;
-}
-
-.measure-line-width::before {
-  left: 0;
-}
-
-.measure-line-width::after {
-  right: 0;
-}
-
-.measure-line-height {
-  top: 21%;
-  right: 15%;
-  bottom: 8%;
-  width: 24px;
-  border-left: 3px solid var(--red);
-}
-
-.measure-line-height::before,
-.measure-line-height::after {
-  left: -7px;
-  width: 14px;
-  height: 3px;
-}
-
-.measure-line-height::before {
-  top: 0;
-}
-
-.measure-line-height::after {
-  bottom: 0;
+  font-weight: 900;
+  text-anchor: middle;
 }
 
 .size-guide table {
