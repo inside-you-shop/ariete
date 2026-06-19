@@ -9,6 +9,7 @@
   --muted: #111111;
   --white: #ffffff;
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
+  --topbar-height: 88px;
 }
 
 * {
@@ -17,12 +18,14 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--topbar-height);
   overflow-x: hidden;
 }
 
 body {
   width: 100%;
   margin: 0;
+  padding-top: var(--topbar-height);
   overflow-x: hidden;
   background: var(--white);
   color: var(--ink);
@@ -42,7 +45,9 @@ textarea {
 }
 
 .topbar {
-  position: sticky;
+  position: fixed;
+  right: 0;
+  left: 0;
   top: 0;
   z-index: 30;
   display: grid;
@@ -221,8 +226,8 @@ textarea {
   gap: 10px;
   min-height: 42px;
   padding: 0 15px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: transparent;
+  border: 1px solid var(--red);
+  background: var(--red);
   color: var(--white);
   font-size: 13px;
   font-weight: 900;
@@ -236,7 +241,9 @@ textarea {
   min-width: 24px;
   height: 24px;
   place-items: center;
-  background: var(--red);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--black);
 }
 
 .campaign-poster {
@@ -397,7 +404,8 @@ p {
 
 .cta,
 .pay-button,
-.add-button {
+.add-button,
+.checkout-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -415,6 +423,7 @@ p {
 
 .cta:hover,
 .add-button:hover,
+.checkout-button:hover,
 .pay-button:hover {
   transform: translateY(-1px);
 }
@@ -686,10 +695,17 @@ p {
   appearance: none;
 }
 
-.add-button {
+.add-button,
+.checkout-button {
   width: 100%;
   min-height: 48px;
   font-size: 20px;
+}
+
+.checkout-button {
+  border: 2px solid var(--black);
+  background: var(--white);
+  color: var(--black);
 }
 
 .price-strip,
@@ -1270,6 +1286,10 @@ textarea:focus {
 }
 
 @media (max-width: 760px) {
+  :root {
+    --topbar-height: 76px;
+  }
+
   .topbar {
     grid-template-columns: 1fr;
     grid-template-areas: "cart";

@@ -8,6 +8,12 @@ const ORDER_DESTINATION = {
   endpoint: "https://formsubmit.co/ajax/angolodellerisposte@gmail.com",
 };
 
+const POSTEPAY_DETAILS = {
+  holder: "Paola Zagoner",
+  card: "4023601041327461",
+  taxCode: "ZGNPLA83D54L219T",
+};
+
 const FIRST_ITEM_SHIPPING = 4.95;
 const ADDITIONAL_SHIPPING = {
   cap: 1.95,
@@ -258,6 +264,9 @@ function renderProduct(product) {
       <button class="add-button" type="button" data-add="${product.id}">
         Aggiungi
       </button>
+      <button class="checkout-button" type="button" data-buy-now="${product.id}">
+        Compra ora
+      </button>
     </article>
   `;
 }
@@ -355,8 +364,24 @@ function selectedQuantity(productId) {
   return Math.max(1, Math.min(20, Number.isFinite(quantity) ? Math.round(quantity) : 1));
 }
 
+function addProductToCart(product) {
+  const size = selectedSize(product.id);
+  const quantity = selectedQuantity(product.id);
+  const existingItem = cart.find((item) => item.id === product.id && item.size === size);
+
+  if (existingItem) {
+    existingItem.quantity = Math.min(20, (existingItem.quantity || 1) + quantity);
+    existingItem.price = productPrice(product);
+  } else {
+    cart.push({ ...product, price: productPrice(product), size, quantity });
+  }
+
+  renderCart();
+  return quantity;
+}
+
 function renderCart() {
-  cartCount.textContent = cart.length;
+  cartCount.textContent = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
   const { subtotal, shipping, total, paypalFee, paypalTotal } = cartTotals();
 
   if (cart.length === 0) {
@@ -395,6 +420,35 @@ function paymentLink(type) {
   return baseLink;
 }
 
+function paymentLabel(type) {
+  if (type === "paypal") return "PayPal";
+  if (type === "satispay") return "Satispay";
+  if (type === "postepay") return "PostePay";
+  return "-";
+}
+
+function isPostepayConfigured() {
+  return (
+    POSTEPAY_DETAILS.holder &&
+    POSTEPAY_DETAILS.card &&
+    POSTEPAY_DETAILS.taxCode &&
+    !POSTEPAY_DETAILS.holder.includes("INSERISCI_") &&
+    !POSTEPAY_DETAILS.card.includes("INSERISCI_") &&
+    !POSTEPAY_DETAILS.taxCode.includes("INSERISCI_")
+  );
+}
+
+function postepayInstructions(total) {
+  return [
+    "Dati per pagamento PostePay:",
+    `Intestatario: ${POSTEPAY_DETAILS.holder}`,
+    `Numero PostePay: ${POSTEPAY_DETAILS.card}`,
+    `Codice fiscale intestataria: ${POSTEPAY_DETAILS.taxCode}`,
+    `Importo da ricaricare: ${money(total)}`,
+    "Dopo la ricarica riceverai conferma definitiva entro 24 ore.",
+  ].join("\n");
+}
+
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("visible");
@@ -408,8 +462,9 @@ function checkoutPayload(paymentType = "") {
   const { total, paypalFee, paypalTotal } = cartTotals();
   const customerName = formData.get("name") || "";
   const customerEmail = formData.get("email") || "";
-  const paymentLabel = paymentType ? (paymentType === "paypal" ? "PayPal" : "Satispay") : "-";
+  const selectedPaymentLabel = paymentLabel(paymentType);
   const orderTotal = paymentType === "paypal" ? paypalTotal : total;
+  const postepayText = paymentType === "postepay" ? postepayInstructions(orderTotal) : "";
   const autoResponse = [
     `Ciao ${customerName || ""},`,
     "",
@@ -418,8 +473,9 @@ function checkoutPayload(paymentType = "") {
     "Riepilogo richiesta:",
     `Prodotti: ${order || "-"}`,
     `Totale: ${money(orderTotal)}`,
-    `Metodo selezionato: ${paymentLabel}`,
+    `Metodo selezionato: ${selectedPaymentLabel}`,
     `Spedizione: ${formData.get("address") || ""}, ${formData.get("zip") || ""} ${formData.get("city") || ""}`,
+    ...(postepayText ? ["", postepayText] : []),
     "Se hai appena completato il pagamento, controlleremo la conferma e riceverai una mail entro 24 ore con lo stato dell'ordine e l'avvio della produzione.",
     "",
     "Ogni capo viene realizzato su richiesta. Produzione + spedizione: circa 6-10 giorni lavorativi.",
@@ -449,8 +505,9 @@ function checkoutPayload(paymentType = "") {
     Citta: formData.get("city") || "",
     Prodotti: order,
     CommissionePayPal: paymentType === "paypal" ? money(paypalFee) : "-",
+    DatiPostePay: paymentType === "postepay" ? postepayText : "-",
     Totale: money(orderTotal),
-    Pagamento: paymentLabel,
+    Pagamento: selectedPaymentLabel,
     Note: formData.get("notes") || "-",
   };
 
@@ -466,6 +523,7 @@ function checkoutPayload(paymentType = "") {
       `Spedizione: ${payloadData.Indirizzo}, ${payloadData.CAP} ${payloadData.Citta}`,
       `Prodotti: ${order}`,
       `Commissione PayPal: ${payloadData.CommissionePayPal}`,
+      `Dati PostePay: ${payloadData.DatiPostePay}`,
       `Totale: ${payloadData.Totale}`,
       `Pagamento: ${payloadData.Pagamento}`,
       `Note: ${payloadData.Note}`,
@@ -509,6 +567,11 @@ async function openPayment(type) {
     return;
   }
 
+  if (type === "postepay" && !isPostepayConfigured()) {
+    showToast("Inserisci prima intestatario e numero PostePay in app.js.");
+    return;
+  }
+
   const payload = checkoutPayload(type);
   if (!payload.isValid) return;
 
@@ -520,6 +583,11 @@ async function openPayment(type) {
     }
   } catch (error) {
     showToast("Ordine non inviato: controlla la connessione e riprova.");
+    return;
+  }
+
+  if (type === "postepay") {
+    showToast("Ordine inviato. Controlla la mail: troverai i dati per ricaricare la PostePay.");
     return;
   }
 
@@ -596,17 +664,17 @@ document.addEventListener("click", (event) => {
   const addButton = event.target.closest("[data-add]");
   if (addButton) {
     const product = products.find((item) => item.id === addButton.dataset.add);
-    const size = selectedSize(product.id);
-    const quantity = selectedQuantity(product.id);
-    const existingItem = cart.find((item) => item.id === product.id && item.size === size);
-    if (existingItem) {
-      existingItem.quantity = Math.min(20, (existingItem.quantity || 1) + quantity);
-      existingItem.price = productPrice(product);
-    } else {
-      cart.push({ ...product, price: productPrice(product), size, quantity });
-    }
-    renderCart();
+    const quantity = addProductToCart(product);
     showToast(`${quantity} x ${product.name} aggiunto al carrello.`);
+    return;
+  }
+
+  const buyNowButton = event.target.closest("[data-buy-now]");
+  if (buyNowButton) {
+    const product = products.find((item) => item.id === buyNowButton.dataset.buyNow);
+    const quantity = addProductToCart(product);
+    showToast(`${quantity} x ${product.name} aggiunto. Vai al checkout.`);
+    document.querySelector("#checkout").scrollIntoView({ behavior: "smooth" });
     return;
   }
 
@@ -624,6 +692,7 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-paypal]")) openPayment("paypal");
   if (event.target.closest("[data-satispay]")) openPayment("satispay");
+  if (event.target.closest("[data-postepay]")) openPayment("postepay");
 });
 
 document.addEventListener("keydown", (event) => {
