@@ -1,6 +1,6 @@
 const PAYMENT_LINKS = {
   paypal: "https://www.paypal.com/paypalme/angolodellerisposte",
-  satispay: "https://www.satispay.com/app/pay/zagoner_p",
+  satispay: "https://web.satispay.com/download/qrcode/S6Y-SVN--1A46081A-E2F9-446F-B4D7-3DCA97A360C2?locale=it_IT",
 };
 
 const ORDER_DESTINATION = {
@@ -598,7 +598,7 @@ async function openPayment(type) {
   }
 
   if (type === "satispay") {
-    showToast(`Ordine inviato. Procedi su Satispay con il totale del carrello: ${totalNode.textContent}.`);
+    showToast(`Ordine inviato. Su Satispay inserisci il totale del carrello: ${totalNode.textContent}. Riceverai conferma entro 24 ore.`);
   }
 
   window.open(link, "_blank", "noopener,noreferrer");
