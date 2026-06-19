@@ -5,7 +5,7 @@ const PAYMENT_LINKS = {
 
 const ORDER_DESTINATION = {
   email: "angolodellerisposte@gmail.com",
-  endpoint: "https://formsubmit.co/ajax/angolodellerisposte@gmail.com",
+  endpoint: "https://script.google.com/macros/s/AKfycbwv4kgkd2PSprrpTTH9ejI-9RNJoJLBtCBOCrYaAqpb-C5ibomWC8yeVtk3a7GyMdgs8A/exec",
 };
 
 const POSTEPAY_DETAILS = {
@@ -486,47 +486,40 @@ function checkoutPayload(paymentType = "") {
     "Inside You",
   ].join("\n");
   const payloadData = {
-    _subject: `Nuovo ordine Ariete Inside - ${customerName || "cliente"}`,
-    _template: "table",
-    _captcha: "false",
-    _replyto: customerEmail,
-    _cc: customerEmail,
-    _autoresponse: autoResponse,
+    name: customerName,
     email: customerEmail,
-    StatoRichiesta: "Richiesta ordine ricevuta. Il pagamento verra verificato manualmente.",
-    ProssimoPasso: "Entro 24 ore invieremo conferma definitiva con ordine in produzione e stato del prodotto.",
-    TempiStimati: "Produzione + spedizione standard tracciata: circa 6-10 giorni lavorativi.",
-    Supporto: "angolodellerisposte@gmail.com",
-    Nome: customerName,
-    Email: customerEmail,
-    Telefono: formData.get("phone") || "",
-    Indirizzo: formData.get("address") || "",
-    CAP: formData.get("zip") || "",
-    Citta: formData.get("city") || "",
-    Prodotti: order,
-    CommissionePayPal: paymentType === "paypal" ? money(paypalFee) : "-",
-    DatiPostePay: paymentType === "postepay" ? postepayText : "-",
-    Totale: money(orderTotal),
-    Pagamento: selectedPaymentLabel,
-    Note: formData.get("notes") || "-",
+    phone: formData.get("phone") || "",
+    address: formData.get("address") || "",
+    city: formData.get("city") || "",
+    zip: formData.get("zip") || "",
+    products: order,
+    totalQuantity: cart.reduce((sum, item) => sum + (item.quantity || 1), 0),
+    subtotal: money(cartTotals().subtotal),
+    shipping: money(cartTotals().shipping),
+    paypalFee: paymentType === "paypal" ? money(paypalFee) : "-",
+    total: money(orderTotal),
+    paymentMethod: selectedPaymentLabel,
+    notes: formData.get("notes") || "-",
+    postepayInstructions: paymentType === "postepay" ? postepayText : "",
+    customerMessage: autoResponse,
   };
 
   return {
     isValid: form.reportValidity(),
-    subject: payloadData._subject,
+    subject: `Nuovo ordine Ariete Inside - ${customerName || "cliente"}`,
     data: payloadData,
     text: [
       "Ordine Ariete Inside Collection",
-      `Cliente: ${payloadData.Nome}`,
-      `Email: ${payloadData.Email}`,
-      `Telefono: ${payloadData.Telefono}`,
-      `Spedizione: ${payloadData.Indirizzo}, ${payloadData.CAP} ${payloadData.Citta}`,
+      `Cliente: ${payloadData.name}`,
+      `Email: ${payloadData.email}`,
+      `Telefono: ${payloadData.phone}`,
+      `Spedizione: ${payloadData.address}, ${payloadData.zip} ${payloadData.city}`,
       `Prodotti: ${order}`,
-      `Commissione PayPal: ${payloadData.CommissionePayPal}`,
-      `Dati PostePay: ${payloadData.DatiPostePay}`,
-      `Totale: ${payloadData.Totale}`,
-      `Pagamento: ${payloadData.Pagamento}`,
-      `Note: ${payloadData.Note}`,
+      `Commissione PayPal: ${payloadData.paypalFee}`,
+      `Dati PostePay: ${payloadData.postepayInstructions || "-"}`,
+      `Totale: ${payloadData.total}`,
+      `Pagamento: ${payloadData.paymentMethod}`,
+      `Note: ${payloadData.notes}`,
     ].join("\n"),
   };
 }
@@ -547,15 +540,10 @@ async function submitOrderToOwner(payload) {
     return false;
   }
 
-  const formBody = new FormData();
-  Object.entries(payload.data).forEach(([key, value]) => {
-    formBody.append(key, value);
-  });
-
   const response = await fetch(ORDER_DESTINATION.endpoint, {
     method: "POST",
-    headers: { Accept: "application/json" },
-    body: formBody,
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload.data),
   });
 
   return response.ok;
