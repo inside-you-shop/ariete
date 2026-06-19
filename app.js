@@ -575,7 +575,7 @@ async function openPayment(type) {
   }
 
   if (type === "postepay") {
-    showToast("Ordine inviato. Controlla la mail: troverai i dati per ricaricare la PostePay.");
+    showToast("Ordine inviato. Controlla la tua email: trovi le istruzioni PostePay e il totale da pagare. Conferma pagamento entro 24 ore.");
     return;
   }
 
