@@ -264,8 +264,8 @@ function renderProduct(product) {
       <button class="add-button" type="button" data-add="${product.id}">
         Aggiungi
       </button>
-      <button class="checkout-button" type="button" data-buy-now="${product.id}">
-        Compra ora
+      <button class="checkout-button" type="button" data-go-cart>
+        Vai al carrello
       </button>
     </article>
   `;
@@ -370,7 +370,7 @@ function addProductToCart(product) {
   const existingItem = cart.find((item) => item.id === product.id && item.size === size);
 
   if (existingItem) {
-    existingItem.quantity = Math.min(20, (existingItem.quantity || 1) + quantity);
+    existingItem.quantity = quantity;
     existingItem.price = productPrice(product);
   } else {
     cart.push({ ...product, price: productPrice(product), size, quantity });
@@ -669,11 +669,7 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  const buyNowButton = event.target.closest("[data-buy-now]");
-  if (buyNowButton) {
-    const product = products.find((item) => item.id === buyNowButton.dataset.buyNow);
-    const quantity = addProductToCart(product);
-    showToast(`${quantity} x ${product.name} aggiunto. Vai al checkout.`);
+  if (event.target.closest("[data-go-cart]")) {
     document.querySelector("#checkout").scrollIntoView({ behavior: "smooth" });
     return;
   }
