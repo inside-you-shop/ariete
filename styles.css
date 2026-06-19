@@ -840,6 +840,108 @@ p {
   font-weight: 700;
 }
 
+.measure-visual {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px solid var(--black);
+  background: #f7f7f7;
+}
+
+.measure-visual p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.measure-shirt {
+  position: relative;
+  width: min(190px, 100%);
+  aspect-ratio: 1.15 / 1;
+  margin: 0 auto;
+  border: 2px solid var(--black);
+  border-radius: 34px 34px 12px 12px;
+  background:
+    linear-gradient(135deg, transparent 0 22%, var(--black) 22% 24%, transparent 24%),
+    linear-gradient(225deg, transparent 0 22%, var(--black) 22% 24%, transparent 24%);
+}
+
+.measure-shirt::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 44px;
+  height: 28px;
+  border: 2px solid var(--black);
+  border-top: 0;
+  border-radius: 0 0 999px 999px;
+  background: #f7f7f7;
+  transform: translateX(-50%);
+}
+
+.measure-line {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  color: var(--red);
+  font-weight: 900;
+}
+
+.measure-line::before,
+.measure-line::after {
+  content: "";
+  position: absolute;
+  background: var(--red);
+}
+
+.measure-line-width {
+  top: 44%;
+  right: 14%;
+  left: 14%;
+  height: 20px;
+  border-top: 2px solid var(--red);
+}
+
+.measure-line-width::before,
+.measure-line-width::after {
+  top: -5px;
+  width: 2px;
+  height: 10px;
+}
+
+.measure-line-width::before {
+  left: 0;
+}
+
+.measure-line-width::after {
+  right: 0;
+}
+
+.measure-line-height {
+  top: 20%;
+  right: 8%;
+  bottom: 8%;
+  width: 20px;
+  border-left: 2px solid var(--red);
+}
+
+.measure-line-height::before,
+.measure-line-height::after {
+  left: -5px;
+  width: 10px;
+  height: 2px;
+}
+
+.measure-line-height::before {
+  top: 0;
+}
+
+.measure-line-height::after {
+  bottom: 0;
+}
+
 .size-guide table {
   width: 100%;
   border-collapse: collapse;
