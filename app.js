@@ -452,7 +452,7 @@ function postepayInstructions(total) {
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("visible");
-  window.setTimeout(() => toast.classList.remove("visible"), 2600);
+  window.setTimeout(() => toast.classList.remove("visible"), 5200);
 }
 
 function checkoutPayload(paymentType = "") {

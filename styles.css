@@ -1327,23 +1327,39 @@ textarea:focus {
 
 .toast {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 40;
-  max-width: min(380px, calc(100vw - 36px));
-  padding: 14px 16px;
+  left: 50%;
+  top: 50%;
+  z-index: 80;
+  width: min(520px, calc(100vw - 32px));
+  min-height: 128px;
+  display: grid;
+  place-items: center;
+  padding: 24px 26px;
   background: var(--black);
   color: var(--white);
+  border: 2px solid var(--red);
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.35;
   box-shadow: var(--shadow);
   opacity: 0;
-  transform: translateY(12px);
+  transform: translate(-50%, -46%) scale(0.96);
   pointer-events: none;
-  transition: opacity 160ms ease, transform 160ms ease;
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .toast.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.toast.visible::before {
+  content: "";
+  position: fixed;
+  inset: -100vh -100vw;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.42);
 }
 
 @media (max-width: 1050px) {
@@ -1504,5 +1520,12 @@ textarea:focus {
 
   .footer {
     flex-direction: column;
+  }
+
+  .toast {
+    width: min(430px, calc(100vw - 24px));
+    min-height: 136px;
+    padding: 22px 18px;
+    font-size: 16px;
   }
 }
