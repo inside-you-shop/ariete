@@ -870,6 +870,25 @@ p {
   border-top: 2px solid var(--black);
 }
 
+.size-guide-section {
+  padding: clamp(36px, 5vw, 70px) clamp(18px, 4vw, 52px);
+  background: var(--black);
+  color: var(--white);
+}
+
+.size-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.size-guide-compact {
+  display: grid;
+  align-content: center;
+}
+
 .essentials-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1262,6 +1281,7 @@ textarea:focus {
   .lookbook,
   .drop-section,
   .tee-details,
+  .size-guide-grid,
   .essentials-grid {
     grid-template-columns: 1fr;
   }
