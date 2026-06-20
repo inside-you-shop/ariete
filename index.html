@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=24" />
+    <link rel="stylesheet" href="./styles.css?v=25" />
   </head>
   <body>
     <header class="topbar">
@@ -251,7 +251,7 @@
           <form class="checkout-form" data-checkout-form>
             <label>
               Nome e cognome
-              <input required name="name" autocomplete="name" placeholder="Nome Cognome" />
+              <input required name="name" autocomplete="name" minlength="3" placeholder="Nome Cognome" />
             </label>
             <label>
               Email
@@ -259,25 +259,50 @@
             </label>
             <label>
               Telefono
-              <input required type="tel" name="phone" autocomplete="tel" placeholder="+39 ..." />
+              <input
+                required
+                type="tel"
+                name="phone"
+                autocomplete="tel"
+                inputmode="tel"
+                minlength="8"
+                pattern="[0-9+() .-]{8,}"
+                placeholder="+39 ..."
+                title="Inserisci un numero di telefono valido per il corriere."
+              />
             </label>
             <label>
               Indirizzo di spedizione
-              <input required name="address" autocomplete="street-address" placeholder="Via, numero civico" />
+              <input
+                required
+                name="address"
+                autocomplete="street-address"
+                minlength="8"
+                placeholder="Via, numero civico"
+                title="Inserisci via/piazza e numero civico."
+              />
             </label>
             <div class="form-row">
               <label>
                 Citt&agrave;
-                <input required name="city" autocomplete="address-level2" />
+                <input required name="city" autocomplete="address-level2" minlength="2" />
               </label>
               <label>
                 CAP
-                <input required name="zip" autocomplete="postal-code" inputmode="numeric" />
+                <input
+                  required
+                  name="zip"
+                  autocomplete="postal-code"
+                  inputmode="numeric"
+                  pattern="[0-9]{5}"
+                  maxlength="5"
+                  title="Inserisci un CAP italiano di 5 cifre."
+                />
               </label>
             </div>
             <label>
-              Note ordine
-              <textarea name="notes" rows="4" placeholder="Taglia, dettagli citofono, preferenze..."></textarea>
+              Note ordine <span class="optional-label">facoltative</span>
+              <textarea name="notes" rows="4" placeholder="Dettagli citofono o indicazioni utili per la consegna..."></textarea>
             </label>
           </form>
 
@@ -341,6 +366,6 @@
       <button class="lightbox-close" type="button" data-close-lightbox aria-label="Chiudi immagine">Chiudi</button>
       <img data-lightbox-image alt="" />
     </div>
-    <script src="./app.js?v=43"></script>
+    <script src="./app.js?v=44"></script>
   </body>
 </html>

@@ -502,7 +502,21 @@ function checkoutPayload(paymentType = "") {
     notes: formData.get("notes") || "-",
     postepayInstructions: paymentType === "postepay" ? postepayText : "",
     customerMessage: autoResponse,
+    internalCheck: "",
   };
+
+  const normalizedPhone = String(payloadData.phone).replace(/[^\d]/g, "");
+  const normalizedZip = String(payloadData.zip).trim();
+  if (normalizedPhone.length < 8) {
+    form.querySelector('[name="phone"]')?.setCustomValidity("Inserisci un numero di telefono valido per il corriere.");
+  } else {
+    form.querySelector('[name="phone"]')?.setCustomValidity("");
+  }
+  if (!/^\d{5}$/.test(normalizedZip)) {
+    form.querySelector('[name="zip"]')?.setCustomValidity("Inserisci un CAP italiano di 5 cifre.");
+  } else {
+    form.querySelector('[name="zip"]')?.setCustomValidity("");
+  }
 
   return {
     isValid: form.reportValidity(),

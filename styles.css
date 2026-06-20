@@ -1102,6 +1102,12 @@ label {
   text-transform: uppercase;
 }
 
+.optional-label {
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+}
+
 input,
 textarea {
   width: 100%;
