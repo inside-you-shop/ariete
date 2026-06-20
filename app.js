@@ -22,7 +22,7 @@ const ADDITIONAL_SHIPPING = {
 };
 const PAYPAL_FEE_RATE = 0.034;
 const PAYPAL_FIXED_FEE = 0.35;
-const OFFER_END_AT = new Date("2026-06-19T23:59:00+02:00");
+const OFFER_END_AT = new Date("2026-06-21T23:59:00+02:00");
 
 const products = [
   {
@@ -80,7 +80,7 @@ const products = [
     group: "baby",
     name: "Body Arietiny",
     description: "Body bianco per piccoli Ariete in crescita.",
-    listPrice: 18.9,
+    listPrice: 19.9,
     price: 16,
     sizes: ["3-6M", "6-12M", "12-18M", "18-24M"],
     images: ["./body-fronte-retro-product.png"],

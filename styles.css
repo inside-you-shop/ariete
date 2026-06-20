@@ -612,7 +612,7 @@ p {
 .product-price .was-price {
   color: rgba(14, 14, 14, 0.78);
   font-family: Arial, sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -620,7 +620,7 @@ p {
 .product-price .was-price s {
   color: var(--black);
   text-decoration-color: var(--red);
-  text-decoration-thickness: 3px;
+  text-decoration-thickness: 4px;
   text-underline-offset: 2px;
 }
 
