@@ -466,8 +466,27 @@ function isPlausibleItalianAddress(value) {
   const routeWords = /\b(via|viale|v\.le|piazza|p\.zza|piazzale|corso|c\.so|largo|vicolo|strada|str\.|frazione|localita|loc\.|contrada|borgata|rione|traversa|salita|discesa|calle|campo|riva|lungomare)\b/;
   const hasNumberOrSnc = /(\d+[a-z]?\b|\bsnc\b|\bs\.n\.c\.)/.test(address);
   const enoughWords = address.split(" ").filter(Boolean).length >= 3;
+  const suspiciousWords = /\b(prova|test|asdf|qwerty|zxcv|aaaa|xxxx|ciao|indirizzo|random)\b/;
+  const streetName = address
+    .replace(routeWords, " ")
+    .replace(/\b(\d+[a-z]?|snc|s\.n\.c\.)\b/g, " ")
+    .replace(/[^\p{L}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const letters = streetName.replace(/[^\p{L}]/gu, "");
+  const vowels = (letters.match(/[aeiou]/g) || []).length;
+  const hasReadableStreetName = streetName.split(" ").some((word) => word.length >= 3);
+  const looksLikeRandomLetters = letters.length >= 6 && vowels / letters.length < 0.25;
 
-  return address.length >= 10 && routeWords.test(address) && hasNumberOrSnc && enoughWords;
+  return (
+    address.length >= 10 &&
+    routeWords.test(address) &&
+    hasNumberOrSnc &&
+    enoughWords &&
+    hasReadableStreetName &&
+    !suspiciousWords.test(address) &&
+    !looksLikeRandomLetters
+  );
 }
 
 function checkoutPayload(paymentType = "") {
@@ -523,24 +542,28 @@ function checkoutPayload(paymentType = "") {
   const normalizedPhone = String(payloadData.phone).replace(/[^\d]/g, "");
   const normalizedZip = String(payloadData.zip).trim();
   const addressInput = form.querySelector('[name="address"]');
+  const isValidPhone = normalizedPhone.length >= 8;
+  const isValidAddress = isPlausibleItalianAddress(payloadData.address);
+  const isValidZip = /^\d{5}$/.test(normalizedZip);
   if (normalizedPhone.length < 8) {
     form.querySelector('[name="phone"]')?.setCustomValidity("Inserisci un numero di telefono valido per il corriere.");
   } else {
     form.querySelector('[name="phone"]')?.setCustomValidity("");
   }
-  if (!isPlausibleItalianAddress(payloadData.address)) {
+  if (!isValidAddress) {
     addressInput?.setCustomValidity("Inserisci un indirizzo completo e reale, per esempio: Via Roma 12 oppure Localita San Marco snc.");
   } else {
     addressInput?.setCustomValidity("");
   }
-  if (!/^\d{5}$/.test(normalizedZip)) {
+  if (!isValidZip) {
     form.querySelector('[name="zip"]')?.setCustomValidity("Inserisci un CAP italiano di 5 cifre.");
   } else {
     form.querySelector('[name="zip"]')?.setCustomValidity("");
   }
+  const isValid = form.reportValidity() && isValidPhone && isValidAddress && isValidZip;
 
   return {
-    isValid: form.reportValidity(),
+    isValid,
     subject: `Nuovo ordine Ariete Inside - ${customerName || "cliente"}`,
     data: payloadData,
     text: [
@@ -596,7 +619,11 @@ async function openPayment(type) {
   }
 
   const payload = checkoutPayload(type);
-  if (!payload.isValid) return;
+  if (!payload.isValid) {
+    document.querySelector("#checkout").scrollIntoView({ behavior: "smooth" });
+    showToast("Controlla i dati di spedizione: indirizzo, telefono e CAP devono essere completi e corretti prima del pagamento.");
+    return;
+  }
 
   try {
     const submitted = await submitOrderToOwner(payload);
