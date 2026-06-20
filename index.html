@@ -6,7 +6,7 @@
     <title>Ariete Inside Collection</title>
     <meta
       name="description"
-      content="Ariete Inside Collection: cappellini e t-shirt print on demand. Minimal, diretti, senza filtri."
+      content="Ariete Inside Collection: t-shirt, body Arietiny, borse, sacca, telo mare e cappellini prodotti su ordinazione. Minimal, diretti, senza filtri."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,13 +14,14 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=26" />
+    <link rel="stylesheet" href="./styles.css?v=27" />
   </head>
   <body>
     <header class="topbar">
       <nav class="nav" aria-label="Navigazione">
         <a href="#tshirt">T-shirt</a>
         <a href="#mini-ariete">Arietiny</a>
+        <a href="#borse">Accessori</a>
         <a href="#cappellini">Cappellini</a>
         <a href="#checkout">Checkout</a>
       </nav>
@@ -37,7 +38,7 @@
           <h1>Per chi non deve spiegarsi troppo.</h1>
           <p class="hero-claim">Non &egrave; un segno, &egrave; uno stile di vita.</p>
           <p>
-            Cappellini, t-shirt e body Arietiny prodotti su ordinazione.
+            T-shirt, body Arietiny, borse, sacca, telo mare e cappellini prodotti su ordinazione.
             Scegli, aggiungi al carrello e completa l'ordine in pochi passaggi.
           </p>
           <div class="countdown-card" data-countdown-card>
@@ -69,6 +70,13 @@
         <div class="product-grid baby-grid" data-product-grid="baby" aria-live="polite"></div>
       </section>
 
+      <section class="collection" id="borse">
+        <div class="section-title">
+          <p>Accessori. <span>Per portare in giro l'attitudine.</span></p>
+        </div>
+        <div class="product-grid" data-product-grid="bags" aria-live="polite"></div>
+      </section>
+
       <section class="collection" id="cappellini">
         <div class="section-title">
           <p>Cappellini. <span>Taglia unica.</span></p>
@@ -94,6 +102,10 @@
           <img src="./tee-retro-lifestyle.png" alt="T-shirt nera retro Sono Ariete indossata" />
           <img src="./tee-fronte-retro-model.png" alt="T-shirt nera fronte e retro indossata" />
           <img src="./body-fronte-retro-product.png" alt="Body Arietiny fronte e retro" />
+          <img src="./borsa-lifestyle.png" alt="Borsa nera Non sono difficile sono Ariete indossata" />
+          <img src="./borsa-bianca-lifestyle.png" alt="Borsa bianca Non sono difficile sono Ariete indossata" />
+          <img src="./telo-lifestyle.png" alt="Telo mare Non sono difficile sono Ariete in spiaggia" />
+          <img src="./sacca-zaino-product.png" alt="Sacca bianca Non sono difficile sono Ariete indossata" />
         </div>
       </section>
 
@@ -116,6 +128,21 @@
             <h3>Body Arietiny</h3>
             <p>Body bianco per piccoli Ariete in crescita.</p>
             <strong>3-6M - 6-12M - 12-18M - 18-24M</strong>
+          </article>
+          <article>
+            <h3>Borsa shopper</h3>
+            <p>100% cotone, manici lunghi e formato comodo per tutti i giorni.</p>
+            <strong>Taglia unica - 38 x 42 cm</strong>
+          </article>
+          <article>
+            <h3>Telo mare</h3>
+            <p>Bianco, fronte in microfibra e retro in cotone. Ideale per spiaggia, piscina e viaggi.</p>
+            <strong>Taglia unica - 70 x 140 cm</strong>
+          </article>
+          <article>
+            <h3>Sacca</h3>
+            <p>Bianca, leggera e con chiusura a coulisse. Perfetta per palestra, mare e tutti i giorni.</p>
+            <strong>Taglia unica</strong>
           </article>
         </div>
       </section>
@@ -219,7 +246,8 @@
             <p>La spedizione costa <strong>4,95 EUR</strong> per il primo prodotto.</p>
             <p>Per ogni prodotto aggiuntivo nello stesso ordine:</p>
             <ul>
-              <li><strong>+1,95 EUR</strong> se aggiungi un cappellino</li>
+              <li><strong>+1,95 EUR</strong> se aggiungi un cappellino o una borsa</li>
+              <li><strong>+1,90 EUR</strong> se aggiungi un telo mare o una sacca</li>
               <li><strong>+1,45 EUR</strong> se aggiungi una t-shirt o un body</li>
             </ul>
             <p>Spedizione tracciata con numero d'ordine.</p>
@@ -366,6 +394,6 @@
       <button class="lightbox-close" type="button" data-close-lightbox aria-label="Chiudi immagine">Chiudi</button>
       <img data-lightbox-image alt="" />
     </div>
-    <script src="./app.js?v=47"></script>
+    <script src="./app.js?v=51"></script>
   </body>
 </html>

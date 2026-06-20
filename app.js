@@ -19,6 +19,9 @@ const ADDITIONAL_SHIPPING = {
   cap: 1.95,
   tee: 1.45,
   baby: 1.45,
+  bag: 1.95,
+  towel: 1.9,
+  sack: 1.9,
 };
 const PAYPAL_FEE_RATE = 0.034;
 const PAYPAL_FIXED_FEE = 0.35;
@@ -86,6 +89,50 @@ const products = [
     images: ["./body-fronte-retro-product.png"],
   },
   {
+    id: "borsa-non-sono-difficile",
+    type: "bag",
+    group: "bags",
+    name: "Borsa Non sono difficile",
+    description: "Shopper nera in 100% cotone, manici lunghi e formato pratico 38 x 42 cm.",
+    listPrice: 19.9,
+    price: 12.95,
+    sizes: ["Taglia unica"],
+    images: ["./borsa-lifestyle.png", "./borsa-product.png"],
+  },
+  {
+    id: "borsa-non-sono-difficile-bianca",
+    type: "bag",
+    group: "bags",
+    name: "Borsa Non sono difficile bianca",
+    description: "Shopper bianca in 100% cotone, manici lunghi e formato pratico 38 x 42 cm.",
+    listPrice: 19.9,
+    price: 12.95,
+    sizes: ["Taglia unica"],
+    images: ["./borsa-bianca-lifestyle.png", "./borsa-bianca-product.png"],
+  },
+  {
+    id: "telo-non-sono-difficile",
+    type: "towel",
+    group: "bags",
+    name: "Telo mare Non sono difficile",
+    description: "Telo mare bianco 70 x 140 cm, fronte in microfibra e retro in cotone.",
+    listPrice: 29.9,
+    price: 21.9,
+    sizes: ["Taglia unica"],
+    images: ["./telo-lifestyle.png", "./telo-product.png", "./telo-lifestyle-2.png"],
+  },
+  {
+    id: "sacca-non-sono-difficile",
+    type: "sack",
+    group: "bags",
+    name: "Sacca Non sono difficile",
+    description: "Sacca bianca leggera con chiusura a coulisse, pratica per palestra, mare e tutti i giorni.",
+    listPrice: 14.9,
+    price: 9.9,
+    sizes: ["Taglia unica"],
+    images: ["./sacca-zaino-product.png"],
+  },
+  {
     id: "cap-ariete-black",
     type: "cap",
     group: "caps",
@@ -130,6 +177,7 @@ const grids = {
   caps: document.querySelector('[data-product-grid="caps"]'),
   tees: document.querySelector('[data-product-grid="tees"]'),
   baby: document.querySelector('[data-product-grid="baby"]'),
+  bags: document.querySelector('[data-product-grid="bags"]'),
 };
 const cartCount = document.querySelector("[data-cart-count]");
 const cartLines = document.querySelector("[data-cart-lines]");
