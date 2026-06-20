@@ -455,6 +455,21 @@ function showToast(message) {
   window.setTimeout(() => toast.classList.remove("visible"), 5200);
 }
 
+function isPlausibleItalianAddress(value) {
+  const address = String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const routeWords = /\b(via|viale|v\.le|piazza|p\.zza|piazzale|corso|c\.so|largo|vicolo|strada|str\.|frazione|localita|loc\.|contrada|borgata|rione|traversa|salita|discesa|calle|campo|riva|lungomare)\b/;
+  const hasNumberOrSnc = /(\d+[a-z]?\b|\bsnc\b|\bs\.n\.c\.)/.test(address);
+  const enoughWords = address.split(" ").filter(Boolean).length >= 3;
+
+  return address.length >= 10 && routeWords.test(address) && hasNumberOrSnc && enoughWords;
+}
+
 function checkoutPayload(paymentType = "") {
   const form = document.querySelector("[data-checkout-form]");
   const formData = new FormData(form);
@@ -507,10 +522,16 @@ function checkoutPayload(paymentType = "") {
 
   const normalizedPhone = String(payloadData.phone).replace(/[^\d]/g, "");
   const normalizedZip = String(payloadData.zip).trim();
+  const addressInput = form.querySelector('[name="address"]');
   if (normalizedPhone.length < 8) {
     form.querySelector('[name="phone"]')?.setCustomValidity("Inserisci un numero di telefono valido per il corriere.");
   } else {
     form.querySelector('[name="phone"]')?.setCustomValidity("");
+  }
+  if (!isPlausibleItalianAddress(payloadData.address)) {
+    addressInput?.setCustomValidity("Inserisci un indirizzo completo e reale, per esempio: Via Roma 12 oppure Localita San Marco snc.");
+  } else {
+    addressInput?.setCustomValidity("");
   }
   if (!/^\d{5}$/.test(normalizedZip)) {
     form.querySelector('[name="zip"]')?.setCustomValidity("Inserisci un CAP italiano di 5 cifre.");
