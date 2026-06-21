@@ -1168,6 +1168,15 @@ textarea:focus {
   font-size: 13px;
 }
 
+.cart-line small {
+  display: block;
+  margin-top: 3px;
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
 .remove-line {
   border: 0;
   background: transparent;

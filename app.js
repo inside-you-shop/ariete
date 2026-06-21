@@ -34,6 +34,7 @@ const products = [
     group: "tees",
     name: "Fronte + retro",
     description: "Logo davanti e frase dietro, con stampa su entrambi i lati.",
+    design: "Davanti: logo Inside. Dietro: scritta Non sono difficile / Sono Ariete.",
     listPrice: 23.9,
     price: 17.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -50,6 +51,7 @@ const products = [
     group: "tees",
     name: "Solo fronte",
     description: "Logo frontale discreto su cotone morbido e taglio sfiancato.",
+    design: "Davanti: logo Inside lato cuore. Retro: vuoto.",
     listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -61,10 +63,23 @@ const products = [
     group: "tees",
     name: "Solo retro",
     description: "Maglia nera con messaggio sul retro.",
+    design: "Davanti: vuoto. Dietro: scritta Non sono difficile / Sono Ariete.",
     listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: ["./tee-retro-lifestyle.png", "./tee-retro-product.png"],
+  },
+  {
+    id: "tee-seconda-a-nessuno-retro",
+    type: "tee",
+    group: "tees",
+    name: "Solo retro Seconda a nessuno",
+    description: "Maglia nera con logo davanti e messaggio Seconda a nessuno sul retro.",
+    design: "Davanti: logo Inside lato cuore. Dietro: scritta Seconda a nessuno / Sono Ariete.",
+    listPrice: 19.9,
+    price: 12.95,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    images: ["./tee-seconda-retro-lifestyle.png", "./tee-seconda-product.png", "./tee-seconda-fronte-lifestyle.png"],
   },
   {
     id: "tee-solo-fronte-scritta",
@@ -72,6 +87,7 @@ const products = [
     group: "tees",
     name: "Solo fronte con scritta",
     description: "Maglia nera con messaggio Non sono difficile sono Ariete sul fronte.",
+    design: "Davanti: scritta Non sono difficile / Sono Ariete. Retro: vuoto.",
     listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -83,6 +99,7 @@ const products = [
     group: "baby",
     name: "Body Arietiny",
     description: "Body bianco per piccoli Ariete in crescita.",
+    design: "Davanti: logo Inside. Dietro: scritta Non sono difficile / Sono Ariete.",
     listPrice: 19.9,
     price: 16,
     sizes: ["3-6M", "6-12M", "12-18M", "18-24M"],
@@ -94,6 +111,7 @@ const products = [
     group: "bags",
     name: "Borsa Non sono difficile",
     description: "Shopper nera in 100% cotone, manici lunghi e formato pratico 38 x 42 cm.",
+    design: "Fronte: scritta Non sono difficile / Sono Ariete.",
     listPrice: 19.9,
     price: 12.95,
     sizes: ["Taglia unica"],
@@ -105,6 +123,7 @@ const products = [
     group: "bags",
     name: "Borsa Non sono difficile bianca",
     description: "Shopper bianca in 100% cotone, manici lunghi e formato pratico 38 x 42 cm.",
+    design: "Fronte: scritta Non sono difficile / Sono Ariete.",
     listPrice: 19.9,
     price: 12.95,
     sizes: ["Taglia unica"],
@@ -116,6 +135,7 @@ const products = [
     group: "bags",
     name: "Telo mare Non sono difficile",
     description: "Telo mare bianco 70 x 140 cm, fronte in microfibra e retro in cotone.",
+    design: "Fronte telo: scritta Non sono difficile / Sono Ariete.",
     listPrice: 29.9,
     price: 21.9,
     sizes: ["Taglia unica"],
@@ -127,6 +147,7 @@ const products = [
     group: "bags",
     name: "Sacca Non sono difficile",
     description: "Sacca bianca leggera con chiusura a coulisse, pratica per palestra, mare e tutti i giorni.",
+    design: "Fronte: scritta Non sono difficile / Sono Ariete.",
     listPrice: 14.9,
     price: 9.9,
     sizes: ["Taglia unica"],
@@ -138,6 +159,7 @@ const products = [
     group: "caps",
     name: "Ariete Inside nero",
     description: "Cappellino nero con logo Inside, taglia unica regolabile, 100% cotone.",
+    design: "Fronte cappellino: logo Inside.",
     listPrice: 15.9,
     price: 11,
     sizes: ["Taglia unica"],
@@ -149,6 +171,7 @@ const products = [
     group: "caps",
     name: "Ariete Inside bianco",
     description: "Cappellino bianco con logo Inside, taglia unica regolabile, 100% cotone.",
+    design: "Fronte cappellino: logo Inside.",
     listPrice: 15.9,
     price: 11,
     sizes: ["Taglia unica"],
@@ -160,6 +183,7 @@ const products = [
     group: "caps",
     name: "Non sono difficile sono Ariete",
     description: "Cappellino nero con frase frontale Non sono difficile sono Ariete, taglia unica regolabile.",
+    design: "Fronte cappellino: scritta Non sono difficile / Sono Ariete.",
     listPrice: 15.9,
     price: 11,
     sizes: ["Taglia unica"],
@@ -227,6 +251,14 @@ function cartTotals() {
 
 function productTotalWithFirstShipping(product) {
   return productPrice(product) + FIRST_ITEM_SHIPPING;
+}
+
+function itemDesignLabel(item) {
+  return item.design || "Grafica: logo/variante come da prodotto selezionato.";
+}
+
+function orderLine(item) {
+  return `${item.quantity || 1} x ${item.name} (${item.size}) - Grafica: ${itemDesignLabel(item)} - ${money(item.price)}`;
 }
 
 function renderProduct(product) {
@@ -442,6 +474,7 @@ function renderCart() {
             <div>
               <strong>${item.name}</strong>
               <span>${item.size} - ${item.quantity || 1} x ${money(item.price)}</span>
+              <small>Grafica: ${itemDesignLabel(item)}</small>
             </div>
             <button class="remove-line" type="button" data-remove="${index}">Rimuovi</button>
           </div>
@@ -540,7 +573,7 @@ function isPlausibleItalianAddress(value) {
 function checkoutPayload(paymentType = "") {
   const form = document.querySelector("[data-checkout-form]");
   const formData = new FormData(form);
-  const order = cart.map((item) => `${item.quantity || 1} x ${item.name} (${item.size}) - ${money(item.price)}`).join(" | ");
+  const order = cart.map(orderLine).join(" | ");
   const { total, paypalFee, paypalTotal } = cartTotals();
   const customerName = formData.get("name") || "";
   const customerEmail = formData.get("email") || "";
