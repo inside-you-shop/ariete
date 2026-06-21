@@ -79,7 +79,7 @@ const products = [
     listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./tee-seconda-retro-lifestyle.png", "./tee-seconda-product.png", "./tee-seconda-fronte-lifestyle.png"],
+    images: ["./tee-seconda-retro-lifestyle.png", "./tee-seconda-product.png"],
   },
   {
     id: "tee-solo-fronte-scritta",
