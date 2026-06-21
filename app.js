@@ -25,7 +25,7 @@ const ADDITIONAL_SHIPPING = {
 };
 const PAYPAL_FEE_RATE = 0.034;
 const PAYPAL_FIXED_FEE = 0.35;
-const OFFER_END_AT = new Date("2026-06-21T23:59:00+02:00");
+const OFFER_END_AT = new Date("2026-06-22T23:59:00+02:00");
 
 const products = [
   {
