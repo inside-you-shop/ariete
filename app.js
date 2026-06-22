@@ -82,6 +82,18 @@ const products = [
     images: ["./tee-seconda-retro-lifestyle.png", "./tee-seconda-product.png"],
   },
   {
+    id: "tee-non-ho-filtri-retro",
+    type: "tee",
+    group: "tees",
+    name: "Solo retro Non ho filtri",
+    description: "Maglia nera con logo davanti e scritta Non ho filtri sul retro.",
+    design: "Davanti: logo Inside lato cuore. Dietro: scritta Non ho filtri / Sono Ariete.",
+    listPrice: 19.9,
+    price: 12.95,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    images: ["./tee-non-ho-filtri-retro-lifestyle.png", "./tee-non-ho-filtri-product.png"],
+  },
+  {
     id: "tee-solo-fronte-scritta",
     type: "tee",
     group: "tees",
