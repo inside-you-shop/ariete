@@ -281,9 +281,19 @@ function renderProduct(product) {
   const launchActive = isLaunchActive();
   const currentPrice = productPrice(product);
   const discount = launchActive && product.listPrice ? Math.round(((product.listPrice - product.price) / product.listPrice) * 100) : 0;
+  const typeLabels = {
+    tee: "T-shirt",
+    cap: "Cappellino",
+    baby: "Body",
+    bag: "Borsa",
+    towel: "Telo mare",
+    sack: "Sacca",
+  };
+  const productType = typeLabels[product.type] || "Prodotto";
   const galleryDots =
     product.images.length > 1
       ? `
+        <p class="gallery-hint">Scorri le foto o tocca per ingrandire</p>
         <div class="gallery-dots" aria-label="Altre foto del prodotto">
           ${product.images
             .map(
@@ -321,6 +331,7 @@ function renderProduct(product) {
       </div>
       ${galleryDots}
       <div class="product-copy">
+        <span class="product-type">${productType}</span>
         <h3>${product.name}</h3>
         <p>${product.description}</p>
         <div class="product-price">

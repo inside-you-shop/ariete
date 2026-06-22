@@ -118,6 +118,23 @@ textarea {
   margin-top: 30px;
 }
 
+.trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.trust-strip span {
+  padding: 8px 10px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .countdown-card {
   display: grid;
   gap: 6px;
@@ -439,6 +456,10 @@ p {
   background: var(--white);
 }
 
+.bestseller-section .product-card {
+  border-width: 3px;
+}
+
 .section-title {
   margin-bottom: 24px;
   text-align: center;
@@ -559,6 +580,10 @@ p {
   background: var(--black);
 }
 
+.bestseller-section .launch-badge {
+  background: var(--black);
+}
+
 .product-media {
   position: relative;
   display: grid;
@@ -626,6 +651,16 @@ p {
   margin-top: -6px;
 }
 
+.gallery-hint {
+  margin: -4px 0 -6px;
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .gallery-dot {
   width: 8px;
   height: 8px;
@@ -646,6 +681,18 @@ p {
   display: grid;
   gap: 10px;
   text-align: center;
+}
+
+.product-type {
+  justify-self: center;
+  padding: 5px 9px 4px;
+  border: 1px solid var(--black);
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .product-copy h3 {
@@ -684,7 +731,7 @@ p {
 .product-price .was-price {
   color: rgba(14, 14, 14, 0.78);
   font-family: Arial, sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -692,7 +739,7 @@ p {
 .product-price .was-price s {
   color: var(--black);
   text-decoration-color: var(--red);
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 2px;
 }
 
@@ -1555,6 +1602,15 @@ textarea:focus {
     font-size: clamp(58px, 17vw, 86px);
   }
 
+  .trust-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .trust-strip span {
+    text-align: center;
+  }
+
   .hero-stack,
   .lookbook-grid,
   .split-media {
@@ -1632,6 +1688,10 @@ textarea:focus {
 
   .product-media.duo img {
     max-height: 230px;
+  }
+
+  .product-price .was-price {
+    font-size: 21px;
   }
 
   .form-row {
