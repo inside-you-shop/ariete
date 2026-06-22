@@ -210,11 +210,13 @@ const formatter = new Intl.NumberFormat("it-IT", {
 });
 
 const grids = {
+  bestsellers: document.querySelector('[data-product-grid="bestsellers"]'),
   caps: document.querySelector('[data-product-grid="caps"]'),
   tees: document.querySelector('[data-product-grid="tees"]'),
   baby: document.querySelector('[data-product-grid="baby"]'),
   bags: document.querySelector('[data-product-grid="bags"]'),
 };
+const bestsellerIds = ["tee-solo-retro", "tee-non-ho-filtri-retro", "tee-seconda-a-nessuno-retro"];
 const cartCount = document.querySelector("[data-cart-count]");
 const cartLines = document.querySelector("[data-cart-lines]");
 const subtotalNode = document.querySelector("[data-subtotal]");
@@ -354,7 +356,7 @@ function renderProduct(product) {
         <button type="button" data-qty-plus="${product.id}" aria-label="Aumenta quantita">+</button>
       </div>
       <button class="add-button" type="button" data-add="${product.id}">
-        Aggiungi
+        Aggiungi al carrello
       </button>
       <button class="checkout-button" type="button" data-go-cart>
         Vai al carrello
@@ -365,7 +367,12 @@ function renderProduct(product) {
 
 function renderProducts() {
   Object.entries(grids).forEach(([group, grid]) => {
-    grid.innerHTML = products.filter((product) => product.group === group).map(renderProduct).join("");
+    if (!grid) return;
+    const groupProducts =
+      group === "bestsellers"
+        ? bestsellerIds.map((id) => products.find((product) => product.id === id)).filter(Boolean)
+        : products.filter((product) => product.group === group);
+    grid.innerHTML = groupProducts.map(renderProduct).join("");
   });
   initializeGalleries();
 }

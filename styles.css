@@ -433,6 +433,12 @@ p {
   background: var(--white);
 }
 
+.bestseller-section {
+  border-top: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+  background: var(--white);
+}
+
 .section-title {
   margin-bottom: 24px;
   text-align: center;
@@ -452,6 +458,72 @@ p {
 
 .tee-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bestseller-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.urgency-strip {
+  display: grid;
+  gap: 4px;
+  width: min(920px, 100%);
+  margin: -8px auto 24px;
+  padding: 14px 18px;
+  border: 2px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+  text-align: center;
+}
+
+.urgency-strip strong {
+  color: var(--red);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.urgency-strip span {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.category-rail {
+  position: sticky;
+  top: var(--topbar-height);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px clamp(14px, 4vw, 48px);
+  overflow-x: auto;
+  background: var(--white);
+  border-bottom: 2px solid var(--black);
+  scrollbar-width: none;
+}
+
+.category-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.category-rail a {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 10px 14px 8px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 20px;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.category-rail a:hover {
+  background: var(--black);
+  color: var(--white);
 }
 
 .baby-grid {
@@ -951,6 +1023,43 @@ p {
   padding: clamp(36px, 5vw, 70px) clamp(18px, 4vw, 52px);
   background: var(--black);
   color: var(--white);
+}
+
+.size-guide-disclosure {
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+.size-guide-disclosure summary {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border: 2px solid var(--red);
+  background: var(--white);
+  color: var(--black);
+  text-align: center;
+  cursor: pointer;
+  list-style: none;
+}
+
+.size-guide-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.size-guide-disclosure summary strong {
+  color: var(--red);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(34px, 4vw, 56px);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.size-guide-disclosure summary span {
+  font-weight: 900;
+}
+
+.size-guide-disclosure[open] summary {
+  margin-bottom: 24px;
 }
 
 .size-guide-grid {
