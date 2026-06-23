@@ -250,6 +250,8 @@ const countdownLabelNode = document.querySelector("[data-countdown-label]");
 const countdownCard = document.querySelector("[data-countdown-card]");
 const orderNotice = document.querySelector("[data-order-notice]");
 const orderNoticeContinue = document.querySelector("[data-order-notice-continue]");
+const redirectModal = document.querySelector("[data-redirect-modal]");
+const redirectMessage = document.querySelector("[data-redirect-message]");
 let pendingPaymentType = "";
 
 function money(value) {
@@ -497,6 +499,17 @@ function closeOrderNotice() {
   orderNotice.hidden = true;
   pendingPaymentType = "";
   document.body.classList.remove("modal-open");
+}
+
+function showRedirectModal(message) {
+  if (!redirectModal || !redirectMessage) {
+    showToast(message);
+    return;
+  }
+
+  redirectMessage.textContent = message;
+  redirectModal.hidden = false;
+  document.body.classList.add("modal-open");
 }
 
 function renderCountdown() {
@@ -818,11 +831,11 @@ async function continuePayment(type) {
   }
 
   if (type === "paypal") {
-    showToast("Ti stiamo reindirizzando a PayPal per completare il pagamento. Dopo la verifica riceverai conferma entro 24 ore.");
+    showRedirectModal("Attendi: ti stiamo reindirizzando a PayPal per completare il pagamento. Dopo la verifica riceverai conferma entro 24 ore.");
   }
 
   if (type === "satispay") {
-    showToast(`Ti stiamo reindirizzando a Satispay. Inserisci l'importo esatto del carrello: ${totalNode.textContent}. Dopo la verifica riceverai conferma entro 24 ore.`);
+    showRedirectModal(`Attendi: ti stiamo reindirizzando a Satispay. Inserisci l'importo esatto del carrello: ${totalNode.textContent}. Dopo la verifica riceverai conferma entro 24 ore.`);
   }
 
   window.open(link, "_blank", "noopener,noreferrer");

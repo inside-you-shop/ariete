@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=37" />
+    <link rel="stylesheet" href="./styles.css?v=38" />
   </head>
   <body
     class="product-landing"
@@ -272,7 +272,7 @@
                 Supporto: angolodellerisposte@gmail.com.
               </p>
               <p>
-                Prezzo lancio attivo grazie agli ordini cumulativi: raccolgo gli ordini e li invio insieme al fornitore.
+                Prezzo lancio attivo grazie agli ordini cumulativi: raccolgo personalmente gli ordini ogni giorno e li invio personalmente al fornitore.
                 Ogni capo viene realizzato su richiesta.
               </p>
             </div>
@@ -325,7 +325,7 @@
           Dopo il pagamento, controlleremo tutto e riceverai entro 24 ore una mail con lo stato dell'ordine.
         </p>
         <p>
-          Questo prezzo lancio &egrave; possibile grazie agli ordini cumulativi: raccolgo gli ordini e li invio insieme al fornitore.
+          Questo prezzo lancio &egrave; possibile grazie agli ordini cumulativi: raccolgo personalmente gli ordini ogni giorno e li invio personalmente al fornitore.
         </p>
         <p>
           Controlla bene taglia, prodotto e dati di spedizione: una volta inviato al fornitore, essendo un capo realizzato su richiesta,
@@ -340,10 +340,17 @@
         </div>
       </div>
     </div>
+    <div class="redirect-modal" data-redirect-modal hidden>
+      <div class="redirect-card" role="dialog" aria-modal="true" aria-labelledby="redirect-title">
+        <p class="collection-label">Pagamento</p>
+        <h2 id="redirect-title">Ti stiamo reindirizzando</h2>
+        <p data-redirect-message>Attendi qualche secondo: stiamo aprendo la modalit&agrave; di pagamento scelta.</p>
+      </div>
+    </div>
     <div class="image-lightbox" data-lightbox hidden>
       <button class="lightbox-close" type="button" data-close-lightbox aria-label="Chiudi immagine">Chiudi</button>
       <img data-lightbox-image alt="" />
     </div>
-    <script src="./app.js?v=66"></script>
+    <script src="./app.js?v=67"></script>
   </body>
 </html>
