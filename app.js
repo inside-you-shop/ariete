@@ -25,7 +25,8 @@ const ADDITIONAL_SHIPPING = {
 };
 const PAYPAL_FEE_RATE = 0.034;
 const PAYPAL_FIXED_FEE = 0.35;
-const COUNTDOWN_TIMEZONE = "Europe/Rome";
+const PROMO_LOCK_DURATION_MS = 10 * 60 * 1000;
+const PROMO_LOCK_STORAGE_KEY = "arieteInsidePromoLockEndsAt";
 
 const products = [
   {
@@ -237,23 +238,21 @@ function isLaunchActive() {
   return true;
 }
 
-function millisecondsUntilDailyOfferEnds() {
-  const parts = new Intl.DateTimeFormat("it-IT", {
-    timeZone: COUNTDOWN_TIMEZONE,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  })
-    .formatToParts(new Date())
-    .reduce((accumulator, part) => {
-      if (part.type !== "literal") accumulator[part.type] = Number(part.value);
-      return accumulator;
-    }, {});
+function promoLockEndsAt() {
+  const storedDeadline = Number(window.localStorage.getItem(PROMO_LOCK_STORAGE_KEY) || 0);
+  const now = Date.now();
 
-  const secondsPassedToday = parts.hour * 3600 + parts.minute * 60 + parts.second;
-  const secondsUntilEnd = 24 * 3600 - secondsPassedToday - 1;
-  return Math.max(secondsUntilEnd, 0) * 1000;
+  if (storedDeadline > now) {
+    return storedDeadline;
+  }
+
+  const nextDeadline = now + PROMO_LOCK_DURATION_MS;
+  window.localStorage.setItem(PROMO_LOCK_STORAGE_KEY, String(nextDeadline));
+  return nextDeadline;
+}
+
+function millisecondsUntilPromoLockEnds() {
+  return Math.max(promoLockEndsAt() - Date.now(), 0);
 }
 
 function productPrice(product) {
@@ -331,7 +330,7 @@ function renderProduct(product) {
       : "";
   return `
     <article class="product-card">
-      ${launchActive ? '<div class="launch-badge">Offerta lancio primi 30 ordini</div>' : '<div class="launch-badge expired">Prezzo pieno attivo</div>'}
+      ${launchActive ? '<div class="launch-badge">Prezzo promo bloccato</div>' : '<div class="launch-badge expired">Prezzo pieno attivo</div>'}
       <div class="product-media ${mediaClass}">
         ${product.images
           .map(
@@ -455,7 +454,7 @@ function closeLightbox() {
 
 function renderCountdown() {
   if (!countdownNode || !countdownLabelNode || !countdownCard) return;
-  const remaining = millisecondsUntilDailyOfferEnds();
+  const remaining = millisecondsUntilPromoLockEnds();
 
   countdownCard.classList.remove("expired");
   const totalSeconds = Math.floor(remaining / 1000);
@@ -465,7 +464,7 @@ function renderCountdown() {
   const seconds = totalSeconds % 60;
   const timeParts = [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
   countdownNode.textContent = days > 0 ? `${days}g ${timeParts}` : timeParts;
-  countdownLabelNode.textContent = "Ultime ore per bloccare il prezzo promo di oggi.";
+  countdownLabelNode.textContent = "Completa l'ordine entro il timer per mantenere lo sconto.";
 }
 
 function syncCartPrices() {
