@@ -1569,6 +1569,72 @@ textarea:focus {
   line-height: 1.45;
 }
 
+.confirmation-note p + p {
+  margin-top: 10px;
+}
+
+.policy-section {
+  padding: 0 clamp(18px, 4vw, 48px) clamp(38px, 6vw, 72px);
+  background: var(--white);
+}
+
+.policy-disclosure {
+  max-width: 980px;
+  margin: 0 auto;
+  border: 2px solid var(--black);
+  background: var(--white);
+}
+
+.policy-disclosure summary {
+  display: grid;
+  gap: 6px;
+  padding: 20px clamp(18px, 4vw, 30px);
+  cursor: pointer;
+  list-style: none;
+}
+
+.policy-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.policy-disclosure summary strong {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.policy-disclosure summary span {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.policy-disclosure[open] summary {
+  border-bottom: 2px solid var(--black);
+}
+
+.policy-content {
+  padding: 22px clamp(18px, 4vw, 30px) 26px;
+}
+
+.policy-content p {
+  max-width: 820px;
+  margin: 0 0 14px;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.policy-content p:last-child {
+  margin-bottom: 0;
+}
+
+.policy-content a {
+  color: var(--red);
+  font-weight: 900;
+}
+
 .footer {
   display: flex;
   flex-wrap: wrap;
