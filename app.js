@@ -465,7 +465,7 @@ function renderCountdown() {
   const seconds = totalSeconds % 60;
   const timeParts = [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
   countdownNode.textContent = days > 0 ? `${days}g ${timeParts}` : timeParts;
-  countdownLabelNode.textContent = "La promo di oggi si chiude alle 23:59 e riparte domani.";
+  countdownLabelNode.textContent = "Ultime ore per bloccare il prezzo promo di oggi.";
 }
 
 function syncCartPrices() {
