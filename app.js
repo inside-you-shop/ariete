@@ -71,6 +71,22 @@ const products = [
     images: ["./tee-retro-lifestyle-real.png", "./tee-retro-product.png"],
   },
   {
+    id: "tee-non-sono-per-tutti-retro",
+    type: "tee",
+    group: "tees",
+    name: "Solo retro Non sono per tutti",
+    description: "Maglia nera con scritta Non sono per tutti sono Ariete sul retro.",
+    design: "Davanti: vuoto. Dietro: scritta Non sono per tutti / Sono Ariete.",
+    listPrice: 19.9,
+    price: 12.95,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    images: [
+      "./tee-non-sono-per-tutti-retro-lifestyle.png",
+      "./tee-non-sono-per-tutti-product.png",
+      "./tee-non-sono-per-tutti-front-lifestyle.png",
+    ],
+  },
+  {
     id: "tee-seconda-a-nessuno-retro",
     type: "tee",
     group: "tees",
