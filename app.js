@@ -791,7 +791,7 @@ async function continuePayment(type) {
   }
 
   if (type === "postepay") {
-    showToast("Ordine inviato. Controlla la tua email: trovi le istruzioni PostePay e il totale da pagare. Conferma pagamento entro 24 ore.");
+    showToast("Ordine inviato. Controlla la tua email: trovi le istruzioni PostePay e il totale esatto da pagare. Dopo la verifica riceverai conferma entro 24 ore.");
     return;
   }
 
@@ -801,8 +801,12 @@ async function continuePayment(type) {
     return;
   }
 
+  if (type === "paypal") {
+    showToast("Ti stiamo reindirizzando a PayPal per completare il pagamento. Dopo la verifica riceverai conferma entro 24 ore.");
+  }
+
   if (type === "satispay") {
-    showToast(`Ordine inviato. Su Satispay inserisci il totale del carrello: ${totalNode.textContent}. Riceverai conferma entro 24 ore.`);
+    showToast(`Ti stiamo reindirizzando a Satispay. Inserisci l'importo esatto del carrello: ${totalNode.textContent}. Dopo la verifica riceverai conferma entro 24 ore.`);
   }
 
   window.open(link, "_blank", "noopener,noreferrer");
