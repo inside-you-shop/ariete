@@ -25,7 +25,7 @@ const ADDITIONAL_SHIPPING = {
 };
 const PAYPAL_FEE_RATE = 0.034;
 const PAYPAL_FIXED_FEE = 0.35;
-const OFFER_END_AT = new Date("2026-06-22T23:59:00+02:00");
+const COUNTDOWN_TIMEZONE = "Europe/Rome";
 
 const products = [
   {
@@ -234,7 +234,26 @@ function money(value) {
 }
 
 function isLaunchActive() {
-  return Date.now() < OFFER_END_AT.getTime();
+  return true;
+}
+
+function millisecondsUntilDailyOfferEnds() {
+  const parts = new Intl.DateTimeFormat("it-IT", {
+    timeZone: COUNTDOWN_TIMEZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  })
+    .formatToParts(new Date())
+    .reduce((accumulator, part) => {
+      if (part.type !== "literal") accumulator[part.type] = Number(part.value);
+      return accumulator;
+    }, {});
+
+  const secondsPassedToday = parts.hour * 3600 + parts.minute * 60 + parts.second;
+  const secondsUntilEnd = 24 * 3600 - secondsPassedToday - 1;
+  return Math.max(secondsUntilEnd, 0) * 1000;
 }
 
 function productPrice(product) {
@@ -436,14 +455,7 @@ function closeLightbox() {
 
 function renderCountdown() {
   if (!countdownNode || !countdownLabelNode || !countdownCard) return;
-  const remaining = OFFER_END_AT.getTime() - Date.now();
-
-  if (remaining <= 0) {
-    countdownCard.classList.add("expired");
-    countdownNode.textContent = "00:00:00";
-    countdownLabelNode.textContent = "Offerta terminata: sono attivi i prezzi pieni.";
-    return;
-  }
+  const remaining = millisecondsUntilDailyOfferEnds();
 
   countdownCard.classList.remove("expired");
   const totalSeconds = Math.floor(remaining / 1000);
@@ -453,7 +465,7 @@ function renderCountdown() {
   const seconds = totalSeconds % 60;
   const timeParts = [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
   countdownNode.textContent = days > 0 ? `${days}g ${timeParts}` : timeParts;
-  countdownLabelNode.textContent = "Alla scadenza tornano i prezzi pieni.";
+  countdownLabelNode.textContent = "La promo di oggi si chiude alle 23:59 e riparte domani.";
 }
 
 function syncCartPrices() {
