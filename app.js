@@ -42,7 +42,7 @@ const products = [
       "./tee-fronte-retro-model.png",
       "./tee-fronte-retro-product.png",
       "./tee-fronte-logo-lifestyle.png",
-      "./tee-retro-lifestyle.png",
+      "./tee-retro-lifestyle-real.png",
     ],
   },
   {
@@ -67,7 +67,7 @@ const products = [
     listPrice: 19.9,
     price: 12.95,
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: ["./tee-retro-lifestyle.png", "./tee-retro-product.png"],
+    images: ["./tee-retro-lifestyle-real.png", "./tee-retro-product.png"],
   },
   {
     id: "tee-seconda-a-nessuno-retro",
