@@ -220,6 +220,82 @@ textarea {
   object-position: center;
 }
 
+.single-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(360px, 1.14fr);
+  gap: clamp(18px, 4vw, 52px);
+  align-items: center;
+  min-height: calc(100vh - var(--topbar-height));
+  padding: clamp(22px, 4vw, 56px);
+  background: var(--black);
+  color: var(--white);
+}
+
+.single-hero-copy {
+  display: grid;
+  align-content: center;
+}
+
+.single-logo {
+  display: block;
+  width: min(150px, 38vw);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  margin-bottom: 22px;
+}
+
+.single-hero h1 {
+  margin: 0 0 18px;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(68px, 9vw, 136px);
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.single-hero p:not(.collection-label) {
+  max-width: 660px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(17px, 1.8vw, 23px);
+  line-height: 1.45;
+}
+
+.single-hero-media {
+  min-height: min(760px, calc(100vh - 150px));
+}
+
+.single-hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+.focused-product {
+  border-top: 2px solid var(--black);
+}
+
+.featured-grid {
+  grid-template-columns: minmax(280px, 680px);
+  justify-content: center;
+}
+
+.featured-grid .product-card {
+  border-width: 3px;
+}
+
+.product-landing .category-rail,
+.product-landing .lookbook,
+.product-landing .essentials {
+  display: none;
+}
+
+.single-size-grid {
+  grid-template-columns: minmax(280px, 760px);
+  justify-content: center;
+}
+
 .nav {
   grid-area: nav;
   display: flex;
@@ -1456,6 +1532,79 @@ textarea:focus {
   text-transform: none;
 }
 
+.order-notice-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 42px);
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.order-notice-modal[hidden] {
+  display: none;
+}
+
+.order-notice-card {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  width: min(620px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  border: 2px solid var(--red);
+  padding: clamp(24px, 4vw, 38px);
+  background: var(--white);
+  color: var(--black);
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.order-notice-card .collection-label {
+  margin-bottom: 0;
+  color: var(--red);
+  font-size: clamp(18px, 2vw, 24px);
+}
+
+.order-notice-card h2 {
+  margin: 0;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(48px, 7vw, 78px);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.order-notice-card p:not(.collection-label) {
+  margin: 0;
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.order-notice-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.order-notice-close {
+  justify-self: end;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
 .image-lightbox {
   position: fixed;
   inset: 0;
@@ -1546,8 +1695,22 @@ textarea:focus {
   .drop-section,
   .tee-details,
   .size-guide-grid,
-  .essentials-grid {
+    .essentials-grid {
     grid-template-columns: 1fr;
+  }
+
+  .single-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .single-hero-media {
+    min-height: 0;
+  }
+
+  .single-hero-media img {
+    min-height: 0;
+    max-height: 720px;
+    aspect-ratio: 4 / 5;
   }
 
   .hero-stack {
@@ -1600,6 +1763,31 @@ textarea:focus {
 
   .social-copy h1 {
     font-size: clamp(58px, 17vw, 86px);
+  }
+
+  .single-hero {
+    gap: 18px;
+    padding: 22px 18px 28px;
+  }
+
+  .single-hero h1 {
+    font-size: clamp(58px, 17vw, 92px);
+  }
+
+  .single-logo {
+    width: 118px;
+    margin-bottom: 14px;
+  }
+
+  .single-hero-media img {
+    width: 100%;
+    max-height: 560px;
+    aspect-ratio: 4 / 5;
+    object-position: center 38%;
+  }
+
+  .product-landing .focused-product {
+    padding-top: 26px;
   }
 
   .trust-strip {

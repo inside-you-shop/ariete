@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=32" />
+    <link rel="stylesheet" href="./styles.css?v=34" />
   </head>
   <body>
     <header class="topbar">
@@ -411,10 +411,28 @@
     </footer>
 
     <div class="toast" data-toast role="status" aria-live="polite"></div>
+    <div class="order-notice-modal" data-order-notice hidden>
+      <div class="order-notice-card" role="dialog" aria-modal="true" aria-labelledby="order-notice-title">
+        <button class="order-notice-close" type="button" data-order-notice-close aria-label="Chiudi avviso">Chiudi</button>
+        <p class="collection-label">Ariete Inside Collection</p>
+        <h2 id="order-notice-title">Ordine su richiesta</h2>
+        <p>
+          Ogni capo viene realizzato appositamente per te dopo la conferma dell'ordine.
+          Dopo il pagamento, controlleremo tutto e riceverai entro 24 ore una mail con lo stato dell'ordine.
+        </p>
+        <p>
+          Produzione e spedizione tracciata richiedono indicativamente 6-10 giorni lavorativi.
+        </p>
+        <div class="order-notice-actions">
+          <button class="pay-button" type="button" data-order-notice-continue>Continua al pagamento</button>
+          <button class="checkout-button" type="button" data-order-notice-close>Controlla ancora l'ordine</button>
+        </div>
+      </div>
+    </div>
     <div class="image-lightbox" data-lightbox hidden>
       <button class="lightbox-close" type="button" data-close-lightbox aria-label="Chiudi immagine">Chiudi</button>
       <img data-lightbox-image alt="" />
     </div>
-    <script src="./app.js?v=62"></script>
+    <script src="./app.js?v=64"></script>
   </body>
 </html>

@@ -210,7 +210,10 @@ const formatter = new Intl.NumberFormat("it-IT", {
   currency: "EUR",
 });
 
+const pageConfig = document.body.dataset;
+
 const grids = {
+  featured: document.querySelector('[data-product-grid="featured"]'),
   bestsellers: document.querySelector('[data-product-grid="bestsellers"]'),
   caps: document.querySelector('[data-product-grid="caps"]'),
   tees: document.querySelector('[data-product-grid="tees"]'),
@@ -229,9 +232,18 @@ const toast = document.querySelector("[data-toast]");
 const countdownNode = document.querySelector("[data-countdown]");
 const countdownLabelNode = document.querySelector("[data-countdown-label]");
 const countdownCard = document.querySelector("[data-countdown-card]");
+const orderNotice = document.querySelector("[data-order-notice]");
+const orderNoticeContinue = document.querySelector("[data-order-notice-continue]");
+let pendingPaymentType = "";
 
 function money(value) {
   return formatter.format(value).replace(/\s/g, " ");
+}
+
+function assetUrl(path) {
+  const base = pageConfig.assetBase || ".";
+  if (!path || /^(https?:|data:|\/)/.test(path)) return path;
+  return `${base.replace(/\/$/, "")}/${path.replace(/^\.\//, "")}`;
 }
 
 function isLaunchActive() {
@@ -290,7 +302,7 @@ function itemDesignLabel(item) {
 }
 
 function orderLine(item) {
-  return `${item.quantity || 1} x ${item.name} (${item.size}) - Grafica: ${itemDesignLabel(item)} - ${money(item.price)}`;
+  return `${item.quantity || 1} x ${item.name} | Taglia: ${item.size} | Codice: ${item.id} | Grafica: ${itemDesignLabel(item)} | Prezzo unitario: ${money(item.price)}`;
 }
 
 function renderProduct(product) {
@@ -333,18 +345,19 @@ function renderProduct(product) {
       ${launchActive ? '<div class="launch-badge">Prezzo promo bloccato</div>' : '<div class="launch-badge expired">Prezzo pieno attivo</div>'}
       <div class="product-media ${mediaClass}">
         ${product.images
-          .map(
-            (image, index) => `
+          .map((image, index) => {
+            const imageSrc = assetUrl(image);
+            return `
               <button
                 class="gallery-frame"
                 type="button"
-                data-lightbox-src="${image}"
+                data-lightbox-src="${imageSrc}"
                 data-lightbox-alt="${product.name} - foto ${index + 1}"
               >
-                <img src="${image}" alt="${product.name} - foto ${index + 1}" />
+                <img src="${imageSrc}" alt="${product.name} - foto ${index + 1}" />
               </button>
-            `,
-          )
+            `;
+          })
           .join("")}
       </div>
       ${galleryDots}
@@ -398,7 +411,9 @@ function renderProducts() {
   Object.entries(grids).forEach(([group, grid]) => {
     if (!grid) return;
     const groupProducts =
-      group === "bestsellers"
+      group === "featured"
+        ? products.filter((product) => product.id === pageConfig.featuredProduct)
+        : group === "bestsellers"
         ? bestsellerIds.map((id) => products.find((product) => product.id === id)).filter(Boolean)
         : products.filter((product) => product.group === group);
     grid.innerHTML = groupProducts.map(renderProduct).join("");
@@ -450,6 +465,22 @@ function closeLightbox() {
   image.removeAttribute("src");
   image.alt = "";
   document.body.classList.remove("lightbox-open");
+}
+
+function openOrderNotice(type) {
+  if (!orderNotice) return false;
+  pendingPaymentType = type;
+  orderNotice.hidden = false;
+  document.body.classList.add("modal-open");
+  window.setTimeout(() => orderNoticeContinue?.focus(), 0);
+  return true;
+}
+
+function closeOrderNotice() {
+  if (!orderNotice) return;
+  orderNotice.hidden = true;
+  pendingPaymentType = "";
+  document.body.classList.remove("modal-open");
 }
 
 function renderCountdown() {
@@ -658,7 +689,8 @@ function checkoutPayload(paymentType = "") {
     notes: formData.get("notes") || "-",
     postepayInstructions: paymentType === "postepay" ? postepayText : "",
     customerMessage: autoResponse,
-    internalCheck: "",
+    landingSource: pageConfig.landingName || "Shop completo",
+    internalCheck: pageConfig.landingName ? `Landing: ${pageConfig.landingName}` : "",
   };
 
   const normalizedPhone = String(payloadData.phone).replace(/[^\d]/g, "");
@@ -729,7 +761,7 @@ async function submitOrderToOwner(payload) {
   return response.ok;
 }
 
-async function openPayment(type) {
+async function continuePayment(type) {
   if (cart.length === 0) {
     showToast("Aggiungi almeno un prodotto prima di pagare.");
     return;
@@ -776,6 +808,27 @@ async function openPayment(type) {
   window.open(link, "_blank", "noopener,noreferrer");
 }
 
+function openPayment(type) {
+  if (cart.length === 0) {
+    showToast("Aggiungi almeno un prodotto prima di pagare.");
+    return;
+  }
+
+  if (type === "postepay" && !isPostepayConfigured()) {
+    showToast("Inserisci prima intestatario e numero PostePay in app.js.");
+    return;
+  }
+
+  const payload = checkoutPayload(type);
+  if (!payload.isValid) {
+    document.querySelector("#checkout").scrollIntoView({ behavior: "smooth" });
+    showToast("Controlla i dati di spedizione: indirizzo, telefono e CAP devono essere completi e corretti prima del pagamento.");
+    return;
+  }
+
+  if (!openOrderNotice(type)) continuePayment(type);
+}
+
 document.addEventListener("click", (event) => {
   const slideButton = event.target.closest("[data-slide]");
   if (slideButton) {
@@ -798,6 +851,18 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-close-lightbox]") || event.target.matches("[data-lightbox]")) {
     closeLightbox();
+    return;
+  }
+
+  if (event.target.closest("[data-order-notice-close]")) {
+    closeOrderNotice();
+    return;
+  }
+
+  if (event.target.closest("[data-order-notice-continue]")) {
+    const type = pendingPaymentType;
+    closeOrderNotice();
+    if (type) continuePayment(type);
     return;
   }
 
@@ -864,7 +929,10 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeLightbox();
+  if (event.key === "Escape") {
+    closeLightbox();
+    closeOrderNotice();
+  }
 });
 
 document.body.dataset.launchActive = String(isLaunchActive());
