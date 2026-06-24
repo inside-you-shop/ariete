@@ -512,6 +512,12 @@ function showRedirectModal(message) {
   document.body.classList.add("modal-open");
 }
 
+function closeRedirectModal() {
+  if (!redirectModal) return;
+  redirectModal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
 function renderCountdown() {
   if (!countdownNode || !countdownLabelNode || !countdownCard) return;
   const remaining = millisecondsUntilPromoLockEnds();
@@ -627,7 +633,6 @@ function postepayInstructions(total) {
     `Numero PostePay: ${POSTEPAY_DETAILS.card}`,
     `Codice fiscale intestataria: ${POSTEPAY_DETAILS.taxCode}`,
     `Importo da ricaricare: ${money(total)}`,
-    "Dopo la ricarica riceverai conferma definitiva entro 24 ore.",
   ].join("\n");
 }
 
@@ -692,7 +697,9 @@ function checkoutPayload(paymentType = "") {
     `Metodo selezionato: ${selectedPaymentLabel}`,
     `Spedizione: ${formData.get("address") || ""}, ${formData.get("zip") || ""} ${formData.get("city") || ""}`,
     ...(postepayText ? ["", postepayText] : []),
-    "Se hai appena completato il pagamento, controlleremo la conferma e riceverai una mail entro 24 ore con lo stato dell'ordine e l'avvio della produzione.",
+    paymentType === "postepay"
+      ? "Appena avrai effettuato la ricarica PostePay, controlleremo il pagamento e aggiorneremo lo stato dell'ordine."
+      : "Se hai appena completato il pagamento, controlleremo la conferma e riceverai una mail entro 24 ore con lo stato dell'ordine e l'avvio della produzione.",
     "",
     "Ogni capo viene realizzato su richiesta. Produzione + spedizione standard tracciata: circa 6-10 giorni lavorativi.",
     "",
@@ -808,13 +815,32 @@ async function continuePayment(type) {
     return;
   }
 
+  let link = "";
+  if (type !== "postepay") {
+    link = paymentLink(type);
+    if (!link || link.includes("INSERISCI_IL_TUO_LINK")) {
+      showToast(`Inserisci il link ${type === "paypal" ? "PayPal" : "Satispay"} reale in app.js.`);
+      return;
+    }
+
+    if (type === "paypal") {
+      showRedirectModal("Attendi: ti stiamo reindirizzando a PayPal per completare il pagamento. Dopo la verifica riceverai conferma entro 24 ore.");
+    }
+
+    if (type === "satispay") {
+      showRedirectModal(`Attendi: ti stiamo reindirizzando a Satispay. Inserisci l'importo esatto del carrello: ${totalNode.textContent}. Dopo la verifica riceverai conferma entro 24 ore.`);
+    }
+  }
+
   try {
     const submitted = await submitOrderToOwner(payload);
     if (!submitted) {
+      closeRedirectModal();
       showToast("Ordine non inviato: configura prima la ricezione ordini.");
       return;
     }
   } catch (error) {
+    closeRedirectModal();
     showToast("Ordine non inviato: controlla la connessione e riprova.");
     return;
   }
@@ -822,20 +848,6 @@ async function continuePayment(type) {
   if (type === "postepay") {
     showToast("Ordine inviato. Controlla la tua email: trovi le istruzioni PostePay e il totale esatto da pagare. Dopo la verifica riceverai conferma entro 24 ore.");
     return;
-  }
-
-  const link = paymentLink(type);
-  if (!link || link.includes("INSERISCI_IL_TUO_LINK")) {
-    showToast(`Inserisci il link ${type === "paypal" ? "PayPal" : "Satispay"} reale in app.js.`);
-    return;
-  }
-
-  if (type === "paypal") {
-    showRedirectModal("Attendi: ti stiamo reindirizzando a PayPal per completare il pagamento. Dopo la verifica riceverai conferma entro 24 ore.");
-  }
-
-  if (type === "satispay") {
-    showRedirectModal(`Attendi: ti stiamo reindirizzando a Satispay. Inserisci l'importo esatto del carrello: ${totalNode.textContent}. Dopo la verifica riceverai conferma entro 24 ore.`);
   }
 
   window.open(link, "_blank", "noopener,noreferrer");
