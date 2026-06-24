@@ -567,6 +567,21 @@ function addProductToCart(product) {
   return quantity;
 }
 
+function addProductToCartWithSize(product, size, quantity = 1) {
+  const safeQuantity = Math.max(1, Math.min(20, Number(quantity) || 1));
+  const existingItem = cart.find((item) => item.id === product.id && item.size === size);
+
+  if (existingItem) {
+    existingItem.quantity = safeQuantity;
+    existingItem.price = productPrice(product);
+  } else {
+    cart.push({ ...product, price: productPrice(product), size, quantity: safeQuantity });
+  }
+
+  renderCart();
+  return safeQuantity;
+}
+
 function renderCart() {
   cartCount.textContent = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
   const { subtotal, shipping, total, paypalFee, paypalTotal } = cartTotals();
@@ -875,6 +890,27 @@ function openPayment(type) {
 }
 
 document.addEventListener("click", (event) => {
+  const quickSizeToggle = event.target.closest("[data-quick-size-toggle]");
+  if (quickSizeToggle) {
+    const panel = document.querySelector("[data-quick-size-panel]");
+    if (panel) {
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.querySelector("button")?.focus();
+    }
+    return;
+  }
+
+  const quickAddButton = event.target.closest("[data-quick-add]");
+  if (quickAddButton) {
+    const product = products.find((item) => item.id === quickAddButton.dataset.quickAdd);
+    if (!product) return;
+    const size = quickAddButton.dataset.quickSize || product.sizes[0];
+    addProductToCartWithSize(product, size, 1);
+    showToast(`${product.name} taglia ${size} aggiunta al carrello.`);
+    document.querySelector("#checkout").scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+
   const slideButton = event.target.closest("[data-slide]");
   if (slideButton) {
     const card = slideButton.closest(".product-card");

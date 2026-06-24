@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=39" />
+    <link rel="stylesheet" href="./styles.css?v=40" />
   </head>
   <body
     class="product-landing"
@@ -55,8 +55,19 @@
             <small data-countdown-label>Completa l'ordine entro il timer per mantenere lo sconto.</small>
           </div>
           <div class="hero-actions">
-            <a class="cta" href="#prodotto">Scegli la taglia</a>
-            <a class="cta cta-light" href="#checkout">Vai al checkout</a>
+            <button class="cta cta-pulse" type="button" data-quick-size-toggle>Scegli la taglia</button>
+            <a class="cta cta-light cta-outline-red" href="#checkout">Vai al checkout</a>
+          </div>
+          <div class="quick-size-panel" data-quick-size-panel hidden>
+            <p>Seleziona la taglia e la aggiungo subito al carrello.</p>
+            <div class="quick-size-options" aria-label="Scegli taglia rapida">
+              <button type="button" data-quick-add="tee-solo-retro" data-quick-size="XS">XS</button>
+              <button type="button" data-quick-add="tee-solo-retro" data-quick-size="S">S</button>
+              <button type="button" data-quick-add="tee-solo-retro" data-quick-size="M">M</button>
+              <button type="button" data-quick-add="tee-solo-retro" data-quick-size="L">L</button>
+              <button type="button" data-quick-add="tee-solo-retro" data-quick-size="XL">XL</button>
+              <button type="button" data-quick-add="tee-solo-retro" data-quick-size="XXL">XXL</button>
+            </div>
           </div>
           <div class="trust-strip" aria-label="Informazioni rapide">
             <span>Ordine su richiesta</span>
@@ -366,6 +377,6 @@
       <button class="lightbox-close" type="button" data-close-lightbox aria-label="Chiudi immagine">Chiudi</button>
       <img data-lightbox-image alt="" />
     </div>
-    <script src="./app.js?v=68"></script>
+    <script src="./app.js?v=69"></script>
   </body>
 </html>
