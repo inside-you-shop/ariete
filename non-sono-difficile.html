@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=38" />
+    <link rel="stylesheet" href="./styles.css?v=39" />
   </head>
   <body
     class="product-landing"
@@ -39,11 +39,16 @@
         <div class="single-hero-copy">
           <img class="single-logo" src="./inside-logo-original.png" alt="Inside" />
           <p class="collection-label">Ariete Inside Collection</p>
-          <h1>Non sono difficile. Sono Ariete.</h1>
-          <p class="hero-claim">Per chi non deve spiegarsi troppo.</p>
+          <h1>La t-shirt virale per Arieti veri.</h1>
+          <p class="hero-claim">Non sono difficile. Sono Ariete.</p>
           <p>
-            T-shirt nera da donna con frase sul retro. Diretta, minimal, senza bisogno di spiegazioni.
+            Se quando l'hai vista hai pensato &ldquo;sono io&rdquo;, questa &egrave; la tua.
           </p>
+          <div class="landing-total-price" aria-label="Prezzo totale promozionale">
+            <strong>17,90 EUR</strong>
+            <span>totale con spedizione tracciata</span>
+            <small>12,95 EUR + 4,95 EUR spedizione</small>
+          </div>
           <div class="countdown-card" data-countdown-card>
             <span>Prezzo promo bloccato per te</span>
             <strong data-countdown>--:--:--</strong>
@@ -64,6 +69,22 @@
         </div>
       </section>
 
+      <section class="collection focused-product" id="prodotto">
+        <div class="section-title">
+          <p>Solo retro. <span>Non sono difficile.</span></p>
+        </div>
+        <div class="urgency-strip">
+          <strong>Prezzo promo bloccato</strong>
+          <span>Scegli la taglia, aggiungi al carrello e completa il pagamento.</span>
+        </div>
+        <div class="product-grid featured-grid" data-product-grid="featured" aria-live="polite"></div>
+      </section>
+
+      <section class="conversion-reassurance" aria-label="Informazioni per acquistare">
+        <strong>Ordine registrato automaticamente.</strong>
+        <span>Ricevi email di conferma, paghi con PayPal, Satispay o PostePay e la spedizione &egrave; tracciata.</span>
+      </section>
+
       <section class="authenticity-block landing-authenticity" aria-label="Messaggio da Ariete ad Ariete">
         <p class="collection-label">Da Ariete ad Ariete</p>
         <h2>Una t-shirt per chi vive il proprio segno come uno stile di vita.</h2>
@@ -79,17 +100,6 @@
           e spedizione tracciata. Non volevo fare una cosa a caso. Volevo farla bene.
         </p>
         <p class="authenticity-closing">Se ti ci riconosci, questa &egrave; la tua.</p>
-      </section>
-
-      <section class="collection focused-product" id="prodotto">
-        <div class="section-title">
-          <p>Solo retro. <span>Non sono difficile.</span></p>
-        </div>
-        <div class="urgency-strip">
-          <strong>Prezzo promo bloccato</strong>
-          <span>Scegli la taglia, aggiungi al carrello e completa il pagamento.</span>
-        </div>
-        <div class="product-grid featured-grid" data-product-grid="featured" aria-live="polite"></div>
       </section>
 
       <section class="info-band landing-info" aria-label="Informazioni essenziali">
@@ -304,6 +314,11 @@
         </details>
       </section>
     </main>
+
+    <a class="mobile-conversion-bar" href="#prodotto" aria-label="Scegli la taglia e ordina la t-shirt">
+      <span>17,90 EUR totale</span>
+      <strong>Scegli taglia</strong>
+    </a>
 
     <footer class="footer">
       <strong>Inside</strong>
