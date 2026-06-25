@@ -540,20 +540,20 @@ function syncCartPrices() {
   });
 }
 
-function selectedSize(productId) {
-  const selected = document.querySelector(`[data-options="${productId}"] .option.selected`);
+function selectedSize(productId, scope = document) {
+  const selected = scope.querySelector(`[data-options="${productId}"] .option.selected`);
   return selected?.dataset.size || "Taglia unica";
 }
 
-function selectedQuantity(productId) {
-  const input = document.querySelector(`[data-qty="${productId}"]`);
+function selectedQuantity(productId, scope = document) {
+  const input = scope.querySelector(`[data-qty="${productId}"]`);
   const quantity = Number(input?.value || 1);
   return Math.max(1, Math.min(20, Number.isFinite(quantity) ? Math.round(quantity) : 1));
 }
 
-function addProductToCart(product) {
-  const size = selectedSize(product.id);
-  const quantity = selectedQuantity(product.id);
+function addProductToCart(product, scope = document) {
+  const size = selectedSize(product.id, scope);
+  const quantity = selectedQuantity(product.id, scope);
   const existingItem = cart.find((item) => item.id === product.id && item.size === size);
 
   if (existingItem) {
@@ -961,28 +961,32 @@ document.addEventListener("click", (event) => {
 
   const quantityMinus = event.target.closest("[data-qty-minus]");
   if (quantityMinus) {
-    const input = document.querySelector(`[data-qty="${quantityMinus.dataset.qtyMinus}"]`);
-    if (input) input.value = Math.max(1, selectedQuantity(quantityMinus.dataset.qtyMinus) - 1);
+    const card = quantityMinus.closest(".product-card") || document;
+    const input = card.querySelector(`[data-qty="${quantityMinus.dataset.qtyMinus}"]`);
+    if (input) input.value = Math.max(1, selectedQuantity(quantityMinus.dataset.qtyMinus, card) - 1);
     return;
   }
 
   const quantityPlus = event.target.closest("[data-qty-plus]");
   if (quantityPlus) {
-    const input = document.querySelector(`[data-qty="${quantityPlus.dataset.qtyPlus}"]`);
-    if (input) input.value = Math.min(20, selectedQuantity(quantityPlus.dataset.qtyPlus) + 1);
+    const card = quantityPlus.closest(".product-card") || document;
+    const input = card.querySelector(`[data-qty="${quantityPlus.dataset.qtyPlus}"]`);
+    if (input) input.value = Math.min(20, selectedQuantity(quantityPlus.dataset.qtyPlus, card) + 1);
     return;
   }
 
   const quantityInput = event.target.closest("[data-qty]");
   if (quantityInput) {
-    quantityInput.value = selectedQuantity(quantityInput.dataset.qty);
+    const card = quantityInput.closest(".product-card") || document;
+    quantityInput.value = selectedQuantity(quantityInput.dataset.qty, card);
     return;
   }
 
   const addButton = event.target.closest("[data-add]");
   if (addButton) {
     const product = products.find((item) => item.id === addButton.dataset.add);
-    const quantity = addProductToCart(product);
+    const card = addButton.closest(".product-card") || document;
+    const quantity = addProductToCart(product, card);
     showToast(`${quantity} x ${product.name} aggiunto al carrello.`);
     return;
   }
